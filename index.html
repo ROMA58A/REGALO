@@ -66,12 +66,13 @@
   
           <label for="message">Mensaje:</label>
           <textarea id="message" name="message" rows="4" required></textarea>
-  
+        
           <label for="include-soundcloud">Incluir enlace de SoundCloud: <input type="checkbox" id="include-soundcloud" name="include-soundcloud"></label>
           
   
           <div id="soundcloud-container" style="display: none;">
             <label for="soundcloud-track">Enlace de SoundCloud:</label>
+            <p>Ir a <a href="https://soundcloud.com" target="_blank">SoundCloud</a> y copia el enlace del track.</p>
             <input type="text" id="soundcloud-track" name="soundcloud-track" placeholder="https://soundcloud.com/...">
           </div>
   
@@ -94,86 +95,95 @@
   </section>
   
   <script>
-    function isValidSoundCloudURL(url) {
-      // Expresión regular para verificar si la URL es de SoundCloud
-      const soundCloudRegex = /^(https:\/\/soundcloud\.com\/|https:\/\/on\.soundcloud\.com\/).+/i;
-      return soundCloudRegex.test(url);
-    }
-  
+const messageTextarea = document.getElementById('message');
+const wordCountDisplay = document.getElementById('word-count');
+
     document.getElementById('hug-form').addEventListener('submit', function(event) {
-      event.preventDefault();
-  
-      const senderNameInput = document.getElementById('sender-name');
-      const recipientNameInput = document.getElementById('recipient-name');
-      const messageInput = document.getElementById('message');
-      const soundcloudTrackInput = document.getElementById('soundcloud-track');
-      const includeSoundCloudCheckbox = document.getElementById('include-soundcloud');
-  
-      if (!senderNameInput || !recipientNameInput || !messageInput) {
-        console.error('Alguno de los elementos del formulario no fue encontrado.');
-        return;
-      }
-  
-      const senderName = senderNameInput.value;
-      const recipientName = recipientNameInput.value;
-      const message = messageInput.value;
-      const includeSoundCloud = includeSoundCloudCheckbox.checked;
-  
-      let soundcloudTrack = '';
-      if (includeSoundCloud) {
-        soundcloudTrack = soundcloudTrackInput.value;
-        if (!isValidSoundCloudURL(soundcloudTrack)) {
-          alert('Por favor, introduce un enlace válido de SoundCloud.');
-          return;
-        }
-      }
-  
-      document.querySelector('.loading-box').style.display = 'block';
-  
-      const encodedSenderName = encodeURIComponent(senderName);
-      const encodedRecipientName = encodeURIComponent(recipientName);
-      const encodedMessage = encodeURIComponent(message);
-      const encodedSoundcloudTrack = encodeURIComponent(soundcloudTrack);
-  
-      setTimeout(() => {
-        const linkContainer = document.getElementById('link-container');
-        if (!linkContainer) {
-          console.error('No se encontró el contenedor de enlaces.');
-          return;
-        }
-        linkContainer.textContent = 'Abrazo musical enviado';
-  
-        const shareButton = document.createElement('button');
-        shareButton.textContent = 'Compartir enlace';
-        shareButton.addEventListener('click', function() {
-          const url = `respuesta.html?senderName=${encodedSenderName}&recipientName=${encodedRecipientName}&message=${encodedMessage}&soundcloudTrack=${encodedSoundcloudTrack}`;
-          if (navigator.share) {
-            navigator.share({
-              title: '¡Disfruta esta canción!',
-              text: 'Te envío esta canción como un abrazo musical. ¡Haz clic para escucharla!',
-              url: url
-            }).then(() => {
-              console.log('Enlace compartido correctamente.');
-              location.reload(); // Recarga la página después de compartir
-            }).catch((error) => {
-              console.error('Error al compartir el enlace:', error);
-              location.reload(); // Recarga la página si hay un error
-            });
-          } else {
-            alert('Lo siento, tu navegador no admite la funcionalidad de compartir.');
-            location.reload(); // Recarga la página si la funcionalidad de compartir no es compatible
-          }
+  event.preventDefault();
+
+  const senderNameInput = document.getElementById('sender-name');
+  const recipientNameInput = document.getElementById('recipient-name');
+  const messageInput = document.getElementById('message');
+  const soundcloudTrackInput = document.getElementById('soundcloud-track');
+  const includeSoundCloudCheckbox = document.getElementById('include-soundcloud');
+
+  if (!senderNameInput || !recipientNameInput || !messageInput) {
+    console.error('Alguno de los elementos del formulario no fue encontrado.');
+    return;
+  }
+
+  const senderName = senderNameInput.value;
+  const recipientName = recipientNameInput.value;
+  const message = messageInput.value;
+  const includeSoundCloud = includeSoundCloudCheckbox.checked;
+
+  let soundcloudTrack = '';
+  if (includeSoundCloud) {
+    soundcloudTrack = soundcloudTrackInput.value;
+    if (!isValidSoundCloudURL(soundcloudTrack)) {
+      alert('Por favor, introduce un enlace válido de SoundCloud.');
+      return;
+    }
+
+    // Conversión automática de enlace móvil a PC
+    if (soundcloudTrack.startsWith('https://m.soundcloud.com/')) {
+      soundcloudTrack = soundcloudTrack.replace('https://m.soundcloud.com/', 'https://soundcloud.com/');
+    }
+  }
+
+  document.querySelector('.loading-box').style.display = 'block';
+
+  const encodedSenderName = encodeURIComponent(senderName);
+  const encodedRecipientName = encodeURIComponent(recipientName);
+  const encodedMessage = encodeURIComponent(message);
+  const encodedSoundcloudTrack = encodeURIComponent(soundcloudTrack);
+
+  setTimeout(() => {
+    const linkContainer = document.getElementById('link-container');
+    if (!linkContainer) {
+      console.error('No se encontró el contenedor de enlaces.');
+      return;
+    }
+    linkContainer.textContent = 'Abrazo musical enviado';
+
+    const shareButton = document.createElement('button');
+    shareButton.textContent = 'Compartir enlace';
+    shareButton.addEventListener('click', function() {
+      const url = `respuesta.html?senderName=${encodedSenderName}&recipientName=${encodedRecipientName}&message=${encodedMessage}&soundcloudTrack=${encodedSoundcloudTrack}`;
+      if (navigator.share) {
+        navigator.share({
+          title: '¡Disfruta esta canción!',
+          text: 'Te envío esta canción como un abrazo musical. ¡Haz clic para escucharla!',
+          url: url
+        }).then(() => {
+          console.log('Enlace compartido correctamente.');
+          location.reload(); // Recarga la página después de compartir
+        }).catch((error) => {
+          console.error('Error al compartir el enlace:', error);
+          location.reload(); // Recarga la página si hay un error
         });
-  
-        linkContainer.appendChild(document.createElement('br')); // Salto de línea
-        linkContainer.appendChild(shareButton);
-      }, 2000);
+      } else {
+        alert('Lo siento, tu navegador no admite la funcionalidad de compartir.');
+        location.reload(); // Recarga la página si la funcionalidad de compartir no es compatible
+      }
     });
-  
-    document.getElementById('include-soundcloud').addEventListener('change', function() {
-      const soundcloudContainer = document.getElementById('soundcloud-container');
-      soundcloudContainer.style.display = this.checked ? 'block' : 'none';
-    });
+
+    linkContainer.appendChild(document.createElement('br')); // Salto de línea
+    linkContainer.appendChild(shareButton);
+  }, 2000);
+});
+
+document.getElementById('include-soundcloud').addEventListener('change', function() {
+  const soundcloudContainer = document.getElementById('soundcloud-container');
+  soundcloudContainer.style.display = this.checked ? 'block' : 'none';
+});
+
+function isValidSoundCloudURL(url) {
+  // Expresión regular para verificar si la URL es de SoundCloud, incluyendo formatos normales y móviles
+  const soundCloudRegex = /^(https?:\/\/(?:www\.)?soundcloud\.com\/|https?:\/\/(?:m\.)?soundcloud\.com\/)[^/]+\/[^/]+/i;
+  return soundCloudRegex.test(url);
+}
+
   </script>
   
   <footer id="footer">
