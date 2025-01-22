@@ -105,3 +105,26 @@ function generateImage() {
     link.click();
   }
 }
+
+<div class="container">
+      <div class="form-container">
+        <h1 id="title-coupon">GENERAR DIFERENTES CUPONES</h1>
+        <form id="love-coupon-form">
+          
+          <label for="quantity">Cantidad de cupones:</label> 
+          <p>pon un numero asta 5 cupones</p>
+<input type="number" id="quantity" name="quantity" min="1" max="5" required>
+
+</select>
+   <br>
+          <div id="coupon-fields-container"></div>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Generar enlace</button>
+          </div>
+        </form>
+       
+      </div>
+       <div class="image-container">
+        <img id="me" src="penguin.svg" alt="">
+      </div>
+    </div> 

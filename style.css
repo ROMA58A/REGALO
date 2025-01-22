@@ -573,7 +573,7 @@ section {
 
 /*--------------------------------------------------------------
 # Contact
---------------------------------------------------------------*/
+--------------------------------------------------------------*//* Container principal del formulario */
 .form-container {
   background: #fff;
   padding: 30px;
@@ -581,8 +581,10 @@ section {
   box-shadow: 0px 0px 30px rgba(127, 137, 161, 0.25);
   max-width: 600px;
   margin: 0 auto;
+  position: relative;
 }
 
+/* Título del formulario */
 .form-container h1 {
   font-size: 24px;
   font-weight: 700;
@@ -590,6 +592,7 @@ section {
   text-align: center;
 }
 
+/* Estilo para las etiquetas */
 .form-container label {
   font-size: 16px;
   font-weight: 600;
@@ -597,6 +600,7 @@ section {
   display: block;
 }
 
+/* Campos de texto y textarea */
 .form-container input[type="text"],
 .form-container textarea {
   width: 100%;
@@ -608,6 +612,12 @@ section {
   font-family: "Open Sans", sans-serif;
 }
 
+/* Estilo para el checkbox */
+.form-container input[type="checkbox"] {
+  margin-right: 10px;
+}
+
+/* Botón de envío */
 .form-container button[type="submit"] {
   background: #5846f9;
   color: #fff;
@@ -620,9 +630,12 @@ section {
   transition: background 0.3s ease;
 }
 
+/* Hover en el botón de envío */
 .form-container button[type="submit"]:hover {
   background: #7b27d8;
 }
+
+/* Contenedor de imágenes */
 .image-container {
   text-align: center;
   margin-top: 20px;
@@ -631,6 +644,8 @@ section {
 .image-container img {
   max-width: 150px;
 }
+
+/* Contenedor de carga */
 .loading-box-container {
   width: 100%;
   display: flex;
@@ -638,13 +653,13 @@ section {
   margin-bottom: 20px;
 }
 
+/* Barra de carga */
 .loading-box {
   height: 10px;
-  width: 400px; /* Ajustar la longitud según sea necesario */
+  width: 400px; /* Ajustar según sea necesario */
   background-color: blueviolet;
   animation: loading 2s;
   display: none;
-  
 }
 
 @keyframes loading {
@@ -656,21 +671,7 @@ section {
   }
 }
 
-/* Modifica el CSS del contenedor principal para que sea relativo */
-.form-container {
-  position: relative;
-}
-
-/* Ajusta la posición del mensaje de estado */
-#state-message {
-  text-align: center;
-  margin-top: 20px; /* Ajusta el margen según sea necesario */
-}
-
-/* Añade una regla para mostrar la barra de carga cuando se genera el enlace */
-#link-container.loading + .box .loading-box {
-  display: block;
-}
+/* Ajustes para el contenedor de enlaces y mensaje de estado */
 #link-container {
   text-align: center;
   margin-top: 20px;
@@ -690,6 +691,18 @@ section {
 #link-container button:hover {
   background: #7b27d8;
 }
+
+/* Mostrar barra de carga cuando se genera el enlace */
+#link-container.loading + .box .loading-box {
+  display: block;
+}
+
+/* Ajuste para el mensaje de estado */
+#state-message {
+  text-align: center;
+  margin-top: 20px; 
+}
+
 
 
 /*--------------------------------------------------------------

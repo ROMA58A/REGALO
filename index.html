@@ -57,7 +57,7 @@
     <div class="container">
       <div class="form-container">
         <h1 id="title">ENVIAR MENSAJE A ESA PERSONA ESPECIAL</h1>
-        <form id="hug-form">
+        <form id="unified-form">
           <label for="sender-name">Tu nombre:</label>
           <input type="text" id="sender-name" name="sender-name" required>
   
@@ -66,17 +66,39 @@
   
           <label for="message">Mensaje:</label>
           <textarea id="message" name="message" rows="4" required></textarea>
-        
-          <label for="include-soundcloud">Incluir enlace de SoundCloud: <input type="checkbox" id="include-soundcloud" name="include-soundcloud"></label>
-          
   
+          <label for="include-soundcloud">Incluir enlace de SoundCloud:
+            <input type="checkbox" id="include-soundcloud" name="include-soundcloud">
+          </label>
+          
           <div id="soundcloud-container" style="display: none;">
             <label for="soundcloud-track">Enlace de SoundCloud:</label>
             <p>Ir a <a href="https://soundcloud.com" target="_blank">SoundCloud</a> y copia el enlace del track.</p>
             <input type="text" id="soundcloud-track" name="soundcloud-track" placeholder="https://soundcloud.com/...">
           </div>
+
+          <label for="include-cupon">Incluir cupón:
+            <input type="checkbox" id="include-cupon" name="include-cupon"> <!-- Cambié el id aquí -->
+          </label>
+          
+          <div id="cupon-container" style="display: none;">
+            <label for="num-cupones">Número de cupones:</label>
+            <select id="num-cupones" name="num-cupones">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5" selected>5</option>
+            </select>
+            <br>
+          
+            <div id="coupon-fields-container"></div>
+          </div>
+          
   
-          <button type="submit">Generar enlace</button>
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Generar enlace</button>
+          </div>
         </form>
       </div>
       <div class="image-container">
@@ -95,10 +117,66 @@
   </section>
   
   <script>
-const messageTextarea = document.getElementById('message');
-const wordCountDisplay = document.getElementById('word-count');
+  const includeSoundCloudCheckbox = document.getElementById('include-soundcloud');
+const soundcloudContainer = document.getElementById('soundcloud-container');
 
-    document.getElementById('hug-form').addEventListener('submit', function(event) {
+// Mostrar u ocultar el campo de SoundCloud al cambiar la casilla
+includeSoundCloudCheckbox.addEventListener('change', function() {
+  if (includeSoundCloudCheckbox.checked) {
+    soundcloudContainer.style.display = 'block';  // Muestra el campo
+  } else {
+    soundcloudContainer.style.display = 'none';  // Oculta el campo
+  }
+});
+
+// Elementos del DOM
+const includeCuponCheckbox = document.getElementById('include-cupon');  // Verifica que el id coincida
+const cuponContainer = document.getElementById('cupon-container');
+
+// Mostrar u ocultar el contenedor de cupones al cambiar la casilla
+includeCuponCheckbox.addEventListener('change', function() {
+  if (includeCuponCheckbox.checked) {
+    cuponContainer.style.display = 'block';  // Muestra el contenedor de cupones
+  } else {
+    cuponContainer.style.display = 'none';  // Oculta el contenedor de cupones
+  }
+});
+
+// Generar campos de cupones dinámicamente
+document.getElementById('num-cupones').addEventListener('change', function() {
+  const numCupones = parseInt(this.value);
+
+  // Eliminar los campos anteriores si existen
+  const couponFieldsContainer = document.getElementById('coupon-fields-container');
+  couponFieldsContainer.innerHTML = '';  // Limpiar los campos generados previamente
+
+  // Crear los campos de cupones según el número seleccionado
+  for (let i = 1; i <= numCupones; i++) {
+    const label = document.createElement('label');
+    label.setAttribute('for', `CUPON${i}`);
+    label.innerText = `Cupón ${i}:`;
+
+    const input = document.createElement('input');
+    input.setAttribute('type', 'text');
+    input.setAttribute('id', `CUPON${i}`);
+    input.setAttribute('name', `CUPON${i}`);
+ 
+
+    const br = document.createElement('br');
+
+    couponFieldsContainer.appendChild(label);
+    couponFieldsContainer.appendChild(input);
+    couponFieldsContainer.appendChild(br);
+  }
+});
+
+// Asegurarse de que solo se cree 1 campo al principio
+document.getElementById('num-cupones').value = 1;  // Establecer el valor inicial a 1
+document.getElementById('num-cupones').dispatchEvent(new Event('change'));  // Disparar el evento para generar el campo inicial
+
+
+// Lógica para manejar el envío del formulario y otros aspectos
+document.getElementById('unified-form').addEventListener('submit', function(event) {
   event.preventDefault();
 
   const senderNameInput = document.getElementById('sender-name');
@@ -107,18 +185,8 @@ const wordCountDisplay = document.getElementById('word-count');
   const soundcloudTrackInput = document.getElementById('soundcloud-track');
   const includeSoundCloudCheckbox = document.getElementById('include-soundcloud');
 
-  if (!senderNameInput || !recipientNameInput || !messageInput) {
-    console.error('Alguno de los elementos del formulario no fue encontrado.');
-    return;
-  }
-
-  const senderName = senderNameInput.value;
-  const recipientName = recipientNameInput.value;
-  const message = messageInput.value;
-  const includeSoundCloud = includeSoundCloudCheckbox.checked;
-
   let soundcloudTrack = '';
-  if (includeSoundCloud) {
+  if (includeSoundCloudCheckbox.checked) {
     soundcloudTrack = soundcloudTrackInput.value;
     if (!isValidSoundCloudURL(soundcloudTrack)) {
       alert('Por favor, introduce un enlace válido de SoundCloud.');
@@ -133,23 +201,31 @@ const wordCountDisplay = document.getElementById('word-count');
 
   document.querySelector('.loading-box').style.display = 'block';
 
-  const encodedSenderName = encodeURIComponent(senderName);
-  const encodedRecipientName = encodeURIComponent(recipientName);
-  const encodedMessage = encodeURIComponent(message);
-  const encodedSoundcloudTrack = encodeURIComponent(soundcloudTrack);
+  const linkContainer = document.getElementById('link-container');
+  if (!linkContainer) {
+    console.error('No se encontró el contenedor de enlaces.');
+    return;
+  }
 
   setTimeout(() => {
-    const linkContainer = document.getElementById('link-container');
-    if (!linkContainer) {
-      console.error('No se encontró el contenedor de enlaces.');
-      return;
+    const cupons = [];
+    for (let i = 1; i <= 5; i++) {
+      const cupónInput = document.getElementById(`CUPON${i}`);
+      if (cupónInput) {
+        cupons.push(cupónInput.value);
+      }
     }
-    linkContainer.textContent = 'Abrazo musical enviado';
+
+    // Formatear cupones como una cadena separada por comas
+    const cuponesStr = cupons.join(',');
+
+    const url = `respuesta.html?senderName=${encodeURIComponent(senderNameInput.value)}&recipientName=${encodeURIComponent(recipientNameInput.value)}&message=${encodeURIComponent(messageInput.value)}&soundcloudTrack=${encodeURIComponent(soundcloudTrack)}&cupons=${encodeURIComponent(cuponesStr)}`;
+
+    linkContainer.innerHTML = `Abrazo musical enviado<br>Cupones personalizados:`;
 
     const shareButton = document.createElement('button');
     shareButton.textContent = 'Compartir enlace';
     shareButton.addEventListener('click', function() {
-      const url = `respuesta.html?senderName=${encodedSenderName}&recipientName=${encodedRecipientName}&message=${encodedMessage}&soundcloudTrack=${encodedSoundcloudTrack}`;
       if (navigator.share) {
         navigator.share({
           title: '¡Disfruta esta canción!',
@@ -173,18 +249,17 @@ const wordCountDisplay = document.getElementById('word-count');
   }, 2000);
 });
 
-document.getElementById('include-soundcloud').addEventListener('change', function() {
-  const soundcloudContainer = document.getElementById('soundcloud-container');
-  soundcloudContainer.style.display = this.checked ? 'block' : 'none';
-});
-
+// Función para validar el enlace de SoundCloud
 function isValidSoundCloudURL(url) {
-  // Expresión regular para verificar si la URL es de SoundCloud, incluyendo formatos normales y móviles
-  const soundCloudRegex = /^(https?:\/\/(?:www\.)?soundcloud\.com\/|https?:\/\/(?:m\.)?soundcloud\.com\/)[^/]+\/[^/]+/i;
-  return soundCloudRegex.test(url);
+  const pattern = /^(https?:\/\/)?(www\.)?soundcloud\.com\/.+/;
+  return pattern.test(url);
 }
 
+
+
   </script>
+  
+ 
   
   <footer id="footer">
 
