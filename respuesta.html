@@ -2,146 +2,177 @@
 <html lang="es">
 
 <head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link
-    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
-    rel="stylesheet">
-  <!-- Vendor CSS Files -->
-  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
-    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
-
-
-  <link rel="stylesheet" href="style1.css">
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="style1.css">
 
 <body>
-  <header id="header" class="fixed-top ">
-    <div class="container d-flex align-items-center justify-content-between">
-      <h1 class="logo"><a href="index.html"><i class="bi bi-chat-right-heart-fill"></i>Mensajes expres</a></h1>
-      <!-- Uncomment below if you prefer to use an image logo -->
-      <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+    <header id="header" class="fixed-top ">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo"><a href="index.html"><i class="bi bi-chat-right-heart-fill"></i>Mensajes expres</a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
-      <nav id="navbar" class="navbar">
-        <ul>
-          <li><a class="nav-link scrollto active" href="#hero">inicio </a></li>
-          <li><a class="nav-link scrollto" href="#contact">enviar mensaje</a></li>
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">inicio </a></li>
+                    <li><a class="nav-link scrollto" href="#contact">enviar mensaje</a></li>
 
-        </ul>
-        <i class="bi bi-list mobile-nav-toggle"></i>
-      </nav><!-- .navbar -->
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
 
-    </div>
-  </header>
-  <section id="hero" class="d-flex align-items-center">
-    <div class="container-fluid" data-aos="fade-up">
-      <div class="row justify-content-center">
-        <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
-          <h1>¡Tienes una carta esperando por ti!</h1>
-          <h2>¡Alguien tiene algo que decirte! Revisa tu carta.</h2>
         </div>
-      </div>
-    </div>
-  </section>
-  <section class="main-section section-bg d-flex flex-column justify-content-center align-items-center" style="min-height: 100vh;">
-
-    <!-- Sección de la carta -->
-    <div class="box mb-4" onclick="openSheet(this)">
-        <div class="folded-sheet">
-            <!-- Parte superior de la hoja -->
-            <div class="sheet-part top d-flex justify-content-center align-items-center">
-                <i class="bi bi-heart-fill" style="color: red; font-size: 40px;"></i>
-            </div>
-  
-            <!-- Parte media de la hoja con mensaje -->
-            <div class="sheet-part middle">
-                <div class="message">
-                    <h1>¡Has recibido una carta!</h1>
-                    <p>Abre la carta para ver el contenido.</p>
-                </div>
-                <br><br>
-            </div>
-  
-            <!-- Contenido del sobre (mensaje abierto) -->
-            <div class="sheet-content" id="capture-content">
-                <h1>ESTE MENSAJE DE PARTE DE: <strong><span id="senderName"></span></strong></h1>
-                <h1>Para ti Persona especial: <strong><span id="recipientName"></span>.</strong></h1>
-                <p><span id="message"></span></p>
-                
-  
-                <div class="d-flex justify-content-center align-items-center mt-3">
-                    <i class="bi bi-heart-fill icons"></i>
-                    <i class="bi bi-heart icons"></i>
-                    <i class="bi bi-heart-half icons"></i>
-                    <i class="bi bi-suit-heart-fill icons"></i>
-                    <i class="bi bi-suit-heart icons"></i>
-                </div>
-                <div id="audio-container"></div>
-
-  
-                <!-- Contenedor que se muestra solo si hay 'soundcloudTrack' -->
-                <div id="song-container" style="display: none;">
-                    <p><strong>Te dedico esta canción:</strong></p>
-                    <h1><strong><div id="song-title-container"></div></strong></h1>
-                    <strong><p>Escúchala en Spotify</p></strong>
+    </header>
+    <section id="hero" class="d-flex align-items-center">
+        <div class="container-fluid" data-aos="fade-up">
+            <div class="row justify-content-center">
+                <div
+                    class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <h1>¡Tienes una carta esperando por ti!</h1>
+                    <h2>¡Alguien tiene algo que decirte! Revisa tu carta.</h2>
                 </div>
             </div>
         </div>
+    </section>
+    <section class="main-section section-bg d-flex flex-column justify-content-center align-items-center"
+        style="min-height: 100vh;">
+  <!-- Sección de la carta -->
+        <div class="box mb-4" onclick="openSheet(this)">
+            <div class="folded-sheet">
+                <!-- Parte superior de la hoja -->
+                <div class="sheet-part top d-flex justify-content-center align-items-center">
+                    <i class="bi bi-heart-fill" style="color: red; font-size: 40px;"></i>
+                </div>
+                <!-- Parte media de la hoja con mensaje -->
+                <div class="sheet-part middle">
+                    <div class="message">
+                        <h1>¡Has recibido una carta!</h1>
+                        <p>Abre la carta para ver el contenido.</p>
+                    </div>
+                    <br><br>
+                </div>
+                <!-- Contenido del sobre (mensaje abierto) -->
+                <div class="sheet-content" id="capture-content">
+                    <h1>ESTE MENSAJE DE PARTE DE: <strong><span id="senderName"></span></strong></h1>
+                    <h1>Para ti Persona especial: <strong><span id="recipientName"></span>.</strong></h1>
+                    <p><span id="message"></span></p>
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <i class="bi bi-heart-fill icons"></i>
+                        <i class="bi bi-heart icons"></i>
+                        <i class="bi bi-heart-half icons"></i>
+                        <i class="bi bi-suit-heart-fill icons"></i>
+                        <i class="bi bi-suit-heart icons"></i>
+                    </div>
+                    <div id="audio-container"></div>
+                    <div id="spotify-container"></div>
+                    <div id="album-cover-container"></div>
+                    <!-- Contenedor que se muestra solo si hay 'soundcloudTrack' -->
+                    <div id="song-container" style="display: none;">
+                        <p><strong>Te dedico esta canción:</strong></p>
+                        <h1><strong>
+                                <div id="song-title-container"></div>
+                            </strong></h1>
+                        <strong>
+                            <p>Escúchala en Spotify</p>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="boss">
+            <h2><strong> revisa si tienes cupones de amor</strong></h2>
+        </div>
+        <!-- Sección del cupón -->
+        <div class="box1" onclick="openSheet(this)">
+            <div class="folded-sheet">
+                <!-- Parte superior del cupón (icono de cupón) -->
+                <div class="sheet-part top d-flex justify-content-center align-items-center">
+                    <i class="bi bi-gift-fill" style="color: #ff6347; font-size: 40px;"></i>
+                </div>
+
+                <!-- Parte media del cupón con mensaje -->
+                <div class="sheet-part middle">
+                    <div class="message">
+                        <h1>¡Has recibido un cupón!</h1>
+                        <p>Abre el cupón para ver el código.</p>
+                    </div>
+                    <br><br>
+                </div>
+                <!-- Contenido del cupón (código del cupón) -->
+                <div class="sheet-content" id="coupon-container">
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <div class="booton" data-aos="fade-up">
+        <div class="container-fluid">
+            <a href="index.html">¿Quieres responder?</a>
+            <button onclick="generateImage()">Descargar carta </button>
+            <button onclick="generateImage1()">Descargar cupones </button>
+        </div>
     </div>
-    <div class="boss">
-  <h2><strong> revisa si tienes cupones de amor</strong></h2>
-</div> 
-    <!-- Sección del cupón -->
-    <div class="box1" onclick="openSheet(this)">
-        <div class="folded-sheet">
-            <!-- Parte superior del cupón (icono de cupón) -->
-            <div class="sheet-part top d-flex justify-content-center align-items-center">
-                <i class="bi bi-gift-fill" style="color: #ff6347; font-size: 40px;"></i>
-            </div>
-  
-            <!-- Parte media del cupón con mensaje -->
-            <div class="sheet-part middle">
-                <div class="message">
-                    <h1>¡Has recibido un cupón!</h1>
-                    <p>Abre el cupón para ver el código.</p>
-                </div>
-                <br><br>
-            </div>
-  
-            <!-- Contenido del cupón (código del cupón) -->
-            <div class="sheet-content" id="coupon-container">
-                
-                </div>
-  
+
+    <script>
+
         
-            </div>
-        </div>
-    </div>
   
-  </section>
-  
+// Función para eliminar la parte "intl-es" de la URL de Spotify
+function removeIntlFromSpotifyURL(url) {
+    return url.replace(/\/intl-[a-zA-Z]+/, ''); // Elimina cualquier parte que comience con /intl-[idioma]
+}
 
-  <div class="booton" data-aos="fade-up">
-<div class="container-fluid" >
-    <a href="index.html">¿Quieres responder?</a>
-    <button onclick="generateImage()">Descargar carta </button>
-    <button onclick="generateImage1()">Descargar  cupones </button>
-  </div>
-  </div>
+// Función para extraer el ID de la URL de Spotify
+function extractSpotifyTrackId(url) {
+    const match = url.match(/track\/([a-zA-Z0-9]+)/);
+    return match ? match[1] : null;
+}
 
-  <script>
 // Obtener parámetros de la URL
 const urlParams = new URLSearchParams(window.location.search);
 const senderName = decodeURIComponent(urlParams.get('senderName'));
 const recipientName = decodeURIComponent(urlParams.get('recipientName'));
 const message = decodeURIComponent(urlParams.get('message'));
 const soundcloudTrack = urlParams.get('soundcloudTrack');
+let spotifyTrack = urlParams.get('spotifyTrack'); // Nuevo parámetro para Spotify
 const cupons = urlParams.get('cupons'); // Lista de cupones como string
+
+// Guardar el método XMLHttpRequest original
+const originalXHR = XMLHttpRequest.prototype.open;
+
+// Sobrescribir el método open de XMLHttpRequest
+XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
+  // Verificar si la solicitud está relacionada con la URL de Spotify
+  if (url.includes('spotifycdn.com/image')) {
+    console.log('Solicitud de recurso de Spotify capturada:', url);
+  }
+
+  // Llamar al método original open
+  return originalXHR.apply(this, arguments);
+};
+
+
+// Eliminar "intl-es" de la URL de Spotify si existe
+if (spotifyTrack) {
+    spotifyTrack = removeIntlFromSpotifyURL(spotifyTrack);
+    // Extraer solo el ID del track de Spotify
+    spotifyTrack = extractSpotifyTrackId(spotifyTrack);
+    console.log('Spotify Track después de eliminar intl-es y extraer el ID:', spotifyTrack);
+}
 
 // Mostrar el nombre del remitente y destinatario
 document.getElementById('senderName').textContent = senderName;
@@ -154,26 +185,22 @@ document.getElementById('message').innerHTML = formattedMessage;
 // Mostrar cupones si existen
 const couponContainer = document.getElementById('coupon-container');
 const couponCodes = cupons ? cupons.split(',') : [];
-const bossContainer = document.querySelector('.boss'); // Contenedor con el mensaje
+const bossContainer = document.querySelector('.boss');
 
 // Verificar si hay cupones
 if (couponCodes.length > 0) {
-    couponContainer.style.display = 'block'; // Mostrar el contenedor de cupones
-    couponContainer.innerHTML = ''; // Limpiar contenido previo
+    couponContainer.style.display = 'block';
+    couponContainer.innerHTML = '';
 
-    // Agregar cada cupón con imagen
     couponCodes.forEach((coupon, index) => {
         let container = document.createElement('div');
-        container.className = 'd-flex flex-column flex-sm-row align-items-center border p-3 mb-3'; // Clases de diseño con Bootstrap
+        container.className = 'd-flex flex-column flex-sm-row align-items-center border p-3 mb-3';
 
         container.innerHTML = `
             <h1>¡Disfruta de tu Cupón!</h1>
-            <!-- Imagen del cupón -->
             <div class="flex-shrink-0 me-3 mb-3 mb-sm-0">
                 <img id="couponImage-${index}" src="cupon 1.png" alt="Imagen del cupón ${index + 1}" class="img-fluid rounded" style="width: 100px; height: auto;">
             </div>
-
-            <!-- Texto del cupón -->
             <div>
                 <p class="mb-1"><strong>Tu cupón está listo para ser utilizado</strong></p>
                 <h2 class="mb-0">Cupón válido por: <strong><span id="couponCode-${index}">${coupon}</span></strong></h2>
@@ -185,118 +212,92 @@ if (couponCodes.length > 0) {
     });
 
     if (bossContainer) {
-        bossContainer.style.display = 'block'; // Mostrar mensaje si hay cupones
+        bossContainer.style.display = 'block';
     }
-
 } else {
-    couponContainer.style.display = 'none'; // Ocultar el contenedor si no hay cupones
-    const box1Container = document.querySelector('.box1'); // Obtener la caja del cupón
+    couponContainer.style.display = 'none';
+    const box1Container = document.querySelector('.box1');
     if (box1Container) {
-        box1Container.style.display = 'none'; // Ocultar la caja del cupón si no hay cupones
+        box1Container.style.display = 'none';
     }
 
     if (bossContainer) {
-        bossContainer.style.display = 'none'; // Ocultar mensaje si no hay cupones
+        bossContainer.style.display = 'none';
     }
 }
 
+// Lógica para mostrar reproductores de SoundCloud y Spotify
+document.addEventListener('DOMContentLoaded', function () {
+    const audioContainer = document.getElementById('audio-container');
+    const songContainer = document.getElementById('song-container');
+    const songTitleContainer = document.getElementById('song-title-container');
+    const spotifyContainer = document.getElementById('spotify-container');
 
+    // Reproductor de SoundCloud
+    if (soundcloudTrack && audioContainer) {
+        const audioPlayer = document.createElement('iframe');
+        audioPlayer.src = `https://w.soundcloud.com/player/?url=${soundcloudTrack}&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
+        audioPlayer.width = '100%';
+        audioPlayer.height = '150';
+        audioPlayer.scrolling = 'no';
+        audioPlayer.frameborder = 'no';
+        audioPlayer.allow = 'autoplay';
+        audioContainer.appendChild(audioPlayer);
 
-// Procesar SoundCloud si está presente
-const audioContainer = document.getElementById('audio-container');
-if (soundcloudTrack && audioContainer) {
-    const audioPlayer = document.createElement('iframe');
-    audioPlayer.src = `https://w.soundcloud.com/player/?url=${soundcloudTrack}&color=%23ff5500&auto_play=true&hide_related=true&show_comments=false&show_user=false&show_reposts=false&show_teaser=false`;
-    audioPlayer.width = '100%';
-    audioPlayer.height = '150';
-    audioPlayer.scrolling = 'no';
-    audioPlayer.frameborder = 'no';
-    audioPlayer.allow = 'autoplay';
-    audioContainer.appendChild(audioPlayer);
-} else if (!soundcloudTrack && audioContainer) {
-    audioContainer.style.display = 'none';
-    console.error('El contenedor de audio no existe.');
-}
-
-window.onload = function () {
-    const urlParams = new URLSearchParams(window.location.search); // Asegúrate de que 'urlParams' se defina correctamente
-    // Obtener el parámetro 'soundcloudTrack' de la URL
-    const soundcloudTrack = urlParams.get('soundcloudTrack');
-
-    // Referencias a los contenedores
-    const songContainer = document.getElementById("song-container");
-    const songTitleContainer = document.getElementById("song-title-container");
-    const audioContainer = document.getElementById("audio-container");
-
-    // Verifica si la URL contiene 'imagen' para mostrar el contenido solo en la imagen
-    if (window.location.href.includes("imagen")) {
-        // Asegurarse de que no se muestre el contenedor completo en la web
-        if (songContainer) {
-            songContainer.style.display = "block";  // Muestra el contenedor completo en la imagen
-        }
-
-        // Asegúrate de que solo se vea el <div id="audio-container"></div>
-        if (audioContainer) {
-            audioContainer.style.display = "block";  // Asegura que el contenedor de audio se muestre
-        }
-
-        // Oculta los demás elementos dentro de 'song-container'
         if (songTitleContainer) {
-            songTitleContainer.style.display = "none";  // Oculta el título
+            const songTitle = soundcloudTrack.split('/').pop().replace(/-/g, ' ');
+            songTitleContainer.textContent = songTitle;
         }
-
-        const songDescription = songContainer.querySelector("p");
-        if (songDescription) {
-            songDescription.style.display = "none";  // Oculta la descripción de "Te dedico esta canción"
-        }
-
-        const spotifyText = songContainer.querySelector("strong p");
-        if (spotifyText) {
-            spotifyText.style.display = "none";  // Oculta "Escúchala en Spotify"
-        }
-
-        // Solo ejecuta la lógica para mostrar el título si hay un 'soundcloudTrack' válido
-        if (soundcloudTrack) {
-            // Extraer el título de la canción desde el parámetro
-            const urlSegments = soundcloudTrack.split('/');
-            let songTitle = urlSegments[urlSegments.length - 1];
-
-            // Procesar el título (eliminar texto después de "?" y reemplazar "-" por espacios)
-            songTitle = songTitle.split('?')[0].replace(/-/g, ' ');
-
-            // Si se quiere mostrar el título en la imagen (esto lo mantienes visible solo si lo deseas)
-            if (songTitleContainer) {
-                songTitleContainer.textContent = songTitle;
-            } else {
-                console.error("No se encontró el contenedor 'song-title-container'.");
-            }
-        } else {
-            console.warn("No se encontró el parámetro 'soundcloudTrack' en la URL.");
-        }
-
-        return; // Termina la ejecución para la web
+    } else if (!soundcloudTrack && audioContainer) {
+        audioContainer.style.display = 'none';
     }
 
-    // Si la página no está en modo imagen, oculta el contenedor
-    if (songContainer) {
-        songContainer.style.display = "none";
+    // Reproductor de Spotify
+    if (spotifyTrack && spotifyContainer) {
+        const spotifyPlayer = document.createElement('iframe');
+        spotifyPlayer.src = `https://open.spotify.com/embed/track/${spotifyTrack}?utm_source=generator`;
+        spotifyPlayer.width = '100%';
+        spotifyPlayer.height = '80';
+        spotifyPlayer.frameborder = '0';
+        spotifyPlayer.allow = 'encrypted-media';
+        spotifyContainer.appendChild(spotifyPlayer);
+    } else if (!spotifyTrack && spotifyContainer) {
+        spotifyContainer.style.display = 'none';
     }
-};
+
+    // Control de visibilidad de contenedores según la URL
+    if (window.location.href.includes('imagen')) {
+        if (songContainer) songContainer.style.display = 'block';
+        if (audioContainer) audioContainer.style.display = 'block';
+        if (spotifyContainer) spotifyContainer.style.display = 'block';
+
+        if (songTitleContainer) songTitleContainer.style.display = 'none';
+        const songDescription = songContainer ? songContainer.querySelector('p') : null;
+        if (songDescription) songDescription.style.display = 'none';
+
+        const spotifyText = songContainer ? songContainer.querySelector('strong p') : null;
+        if (spotifyText) spotifyText.style.display = 'none';
+    } else {
+        if (songContainer) songContainer.style.display = 'none';
+        if (audioContainer && !soundcloudTrack) audioContainer.style.display = 'none';
+        if (spotifyContainer && !spotifyTrack) spotifyContainer.style.display = 'none';
+    }
+});
 
 
-function openEnvelope() {
-    const image = document.getElementById('envelope-image');
-    const details = document.getElementById('envelope-details');
+        function openEnvelope() {
+            const image = document.getElementById('envelope-image');
+            const details = document.getElementById('envelope-details');
 
-    image.style.display = 'none'; // Ocultar la imagen del sobre
-    details.classList.remove('hidden'); // Mostrar el contenido del sobre
-}
+            image.style.display = 'none'; // Ocultar la imagen del sobre
+            details.classList.remove('hidden'); // Mostrar el contenido del sobre
+        }
 
-function openSheet(element) {
-    element.classList.toggle('opened');
-}
+        function openSheet(element) {
+            element.classList.toggle('opened');
+        }
 
-function generateImage() {
+        function generateImage() {
     const content = document.getElementById("capture-content");
 
     if (!content) {
@@ -326,8 +327,49 @@ function generateImage() {
         audioContainer.style.display = "none";
     }
 
+    // Ocultar el contenedor de Spotify solo para la captura
+    const spotifyContainer = document.getElementById("spotify-container");
+    if (spotifyContainer) {
+        spotifyContainer.style.display = "none";
+    }
+
     // Ajustar el contenido antes de capturar
     document.body.style.overflow = "hidden"; // Evitar desplazamientos durante la captura
+
+    // Obtener la URL de la canción de Spotify desde los parámetros de la URL
+    const spotifyTrack = urlParams.get('spotifyTrack');
+    console.log("spotifyTrack:", spotifyTrack);  // Log para verificar el parámetro
+
+    if (spotifyTrack) {
+        const spotifyUrl = spotifyTrack; // Usamos directamente la URL de Spotify desde la query
+        console.log("spotifyUrl:", spotifyUrl);  // Log para verificar la URL
+
+        // Validar la URL de Spotify
+        if (spotifyUrl && spotifyUrl.startsWith("https://open.spotify.com")) {
+            console.log("URL de Spotify válida");  // Log si la URL es válida
+
+            // Crear la URL para generar el código de Spotify
+            const spotifyCodeUrl = `https://www.spotifycodes.com/generate?url=${encodeURIComponent(spotifyUrl)}`;
+            console.log("spotifyCodeUrl:", spotifyCodeUrl);  // Log para verificar la URL de la API
+
+            // Crear una imagen del código de Spotify y mostrarla
+            const spotifyCodeImg = document.createElement('img');
+            spotifyCodeImg.src = spotifyCodeUrl;
+            spotifyCodeImg.alt = "Spotify Code";
+            spotifyCodeImg.style.width = '200px'; // Tamaño opcional para la imagen
+
+            // Agregar la imagen del código de Spotify al contenedor de la página
+            const spotifyCodeContainer = document.getElementById("spotifyCodeContainer");
+            if (spotifyCodeContainer) {
+                spotifyCodeContainer.innerHTML = '';  // Limpiar el contenedor antes de agregar el nuevo código
+                spotifyCodeContainer.appendChild(spotifyCodeImg);
+            }
+        } else {
+            console.warn("No se encontró un enlace válido de Spotify.");
+        }
+    } else {
+        console.warn("No se encontró el parámetro 'spotifyTrack' en la URL.");
+    }
 
     // Esperar un breve tiempo antes de capturar la imagen
     setTimeout(() => {
@@ -356,9 +398,12 @@ function generateImage() {
             link.href = canvasWithMargin.toDataURL("image/png");
             link.click();
 
-            // Restaurar el contenedor de audio después de la captura
+            // Restaurar el contenedor de audio y Spotify después de la captura
             if (audioContainer) {
                 audioContainer.style.display = "block";
+            }
+            if (spotifyContainer) {
+                spotifyContainer.style.display = "block";
             }
 
             // Restaurar el desplazamiento
@@ -369,98 +414,98 @@ function generateImage() {
         });
     }, 300); // Agregar un pequeño retraso para asegurar que los cambios de diseño se apliquen
 }
-function generateImage1() {
-    // Obtener el contenedor del cupón
-    const content = document.getElementById("coupon-container");
 
-    if (!content) {
-        console.error("El elemento con ID 'coupon-container' no existe.");
-        return;
-    }
+        function generateImage1() {
+            // Obtener el contenedor del cupón
+            const content = document.getElementById("coupon-container");
 
-    // Ajustar el contenido antes de capturar
-    document.body.style.overflow = "hidden"; // Evitar desplazamientos durante la captura
+            if (!content) {
+                console.error("El elemento con ID 'coupon-container' no existe.");
+                return;
+            }
 
-    // Esperar un breve tiempo antes de capturar la imagen
-    setTimeout(() => {
-        // Ajuste de escala basado en el dispositivo
-        const scaleFactor = window.devicePixelRatio || 1; // Ajusta según la densidad de píxeles del dispositivo
+            // Ajustar el contenido antes de capturar
+            document.body.style.overflow = "hidden"; // Evitar desplazamientos durante la captura
 
-        html2canvas(content, {
-            useCORS: true,
-            scale: scaleFactor,
-        }).then(canvas => {
-            // Agregar margen al canvas
-            const margin = 20;
-            const canvasWithMargin = document.createElement("canvas");
-            const ctx = canvasWithMargin.getContext("2d");
+            // Esperar un breve tiempo antes de capturar la imagen
+            setTimeout(() => {
+                // Ajuste de escala basado en el dispositivo
+                const scaleFactor = window.devicePixelRatio || 1; // Ajusta según la densidad de píxeles del dispositivo
 
-            canvasWithMargin.width = canvas.width + margin * 2;
-            canvasWithMargin.height = canvas.height + margin * 2;
+                html2canvas(content, {
+                    useCORS: true,
+                    scale: scaleFactor,
+                }).then(canvas => {
+                    // Agregar margen al canvas
+                    const margin = 20;
+                    const canvasWithMargin = document.createElement("canvas");
+                    const ctx = canvasWithMargin.getContext("2d");
 
-            ctx.fillStyle = "#ffffff"; // Fondo blanco
-            ctx.fillRect(0, 0, canvasWithMargin.width, canvasWithMargin.height);
-            ctx.drawImage(canvas, margin, margin);
+                    canvasWithMargin.width = canvas.width + margin * 2;
+                    canvasWithMargin.height = canvas.height + margin * 2;
 
-            // Crear un enlace para descargar la imagen
-            const link = document.createElement("a");
-            link.download = "captura_cupon.png";
-            link.href = canvasWithMargin.toDataURL("image/png");
-            link.click();
+                    ctx.fillStyle = "#ffffff"; // Fondo blanco
+                    ctx.fillRect(0, 0, canvasWithMargin.width, canvasWithMargin.height);
+                    ctx.drawImage(canvas, margin, margin);
 
-            // Restaurar el desplazamiento
-            document.body.style.overflow = "";
-        }).catch(error => {
-            console.error("Error al generar la imagen:", error);
-            document.body.style.overflow = "";
-        });
-    }, 300); // Agregar un pequeño retraso para asegurar que los cambios de diseño se apliquen
-}
+                    // Crear un enlace para descargar la imagen
+                    const link = document.createElement("a");
+                    link.download = "captura_cupon.png";
+                    link.href = canvasWithMargin.toDataURL("image/png");
+                    link.click();
 
+                    // Restaurar el desplazamiento
+                    document.body.style.overflow = "";
+                }).catch(error => {
+                    console.error("Error al generar la imagen:", error);
+                    document.body.style.overflow = "";
+                });
+            }, 300); // Agregar un pequeño retraso para asegurar que los cambios de diseño se apliquen
+        }
 
+    </script>
+    <footer id="footer">
 
-  </script>
-  <footer id="footer">
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <h1>¡No tengas miedo de expresar tus emociones!</h1>
+                </div>
+                <div class="container">
 
-    <div class="footer-top">
-      <div class="container">
-        <div class="row">
-          <h1>¡No tengas miedo de expresar tus emociones!</h1>
-        </div>
-        <div class="container">
+                    <div class="copyright-wrap d-md-flex py-4">
+                        <div class="me-md-auto text-center text-md-start">
+                            <div class="copyright">
+                                &copy; Copyright <strong><span>ROMA</span></strong>. All Rights Reserved
+                            </div>
 
-          <div class="copyright-wrap d-md-flex py-4">
-            <div class="me-md-auto text-center text-md-start">
-              <div class="copyright">
-                &copy; Copyright <strong><span>ROMA</span></strong>. All Rights Reserved
-              </div>
+                        </div>
+                        <div class="social-links text-center text-md-right pt-3 pt-md-0">
+                            <a href="https://github.com/ROMA58A" class="github"><i class="bi bi-github"></i></a>
+                            <a href="https://www.facebook.com/brandon.ayala.71216/?locale=es_LA"><i
+                                    class="bi bi-facebook"></i></a>
+                            <a href="https://www.instagram.com/brandon_ro11/"><i class="bi bi-instagram"></i></a>
+                            <a href="https://www.linkedin.com/in/brand-ayala/"><i class="bi bi-linkedin"></i></a>
+                        </div>
 
-            </div>
-            <div class="social-links text-center text-md-right pt-3 pt-md-0">
-              <a href="https://github.com/ROMA58A" class="github"><i class="bi bi-github"></i></a>
-              <a href="https://www.facebook.com/brandon.ayala.71216/?locale=es_LA"><i class="bi bi-facebook"></i></a>
-              <a href="https://www.instagram.com/brandon_ro11/"><i class="bi bi-instagram"></i></a>
-              <a href="https://www.linkedin.com/in/brand-ayala/"><i class="bi bi-linkedin"></i></a>
-            </div>
+                    </div>
+    </footer><!-- End Footer -->
 
-          </div>
-  </footer><!-- End Footer -->
-
-  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
-      class="bi bi-arrow-up-short"></i></a>
-  <div id="preloader"></div>
-  <!-- Vendor JS Files -->
-  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
-  <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
-  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
-  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-
-
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    <div id="preloader"></div>
+    <!-- Vendor JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 
 
-  <!-- Template Main JS File -->
-  <script src="main.js"></script>
+
+
+    <!-- Template Main JS File -->
+    <script src="main.js"></script>
 </body>
 
 </html>

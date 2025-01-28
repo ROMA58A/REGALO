@@ -1016,6 +1016,18 @@ h2 {
   pointer-events: none;
 }
 
+
+
+
+
+/* Media Query para pantallas muy pequeñas */
+@media (max-width: 480px) {
+  #spotify-container {
+    height: 120px; /* Reduce aún más la altura en pantallas muy pequeñas */
+    margin: 5px; /* Reduce el margen en pantallas muy pequeñas */
+  }
+}
+
 .box.opened {
   height: auto;
   transform: scale(1.05);
