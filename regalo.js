@@ -194,12 +194,13 @@ async function getSpotifyToken() {
         shareButton.textContent = 'Compartir enlace';
         shareButton.addEventListener('click', function() {
           const shareText = `¡Disfruta esta canción!\nTe envío esta canción como un abrazo musical. ¡Haz clic para escucharla! ${shortenedUrl}`;
-      
+          
           if (navigator.share) {
+            // Si el navegador soporta navigator.share, utilizamos el texto y el enlace
             navigator.share({
-              title: '¡Disfruta esta canción!',
-              text: 'Te envío esta canción como un abrazo musical. ¡Haz clic para escucharla!',
-              url: shortenedUrl
+              title: '¡Disfruta esta canción!',  // Título para la parte compartida
+              text: shareText,  // El texto que acompañará el enlace
+              url: shortenedUrl  // El enlace acortado
             }).then(() => {
               console.log('Enlace compartido correctamente.');
               location.reload();
@@ -208,14 +209,22 @@ async function getSpotifyToken() {
               location.reload();
             });
           } else {
-            alert('Lo siento, tu navegador no admite la funcionalidad de compartir.');
+            // Si el navegador no es compatible, mostramos un enlace para copiar
+            const textArea = document.createElement('textarea');
+            textArea.value = shareText;  // El texto que queremos que se copie
+            document.body.appendChild(textArea);
+            textArea.select();  // Selecciona el texto
+            document.execCommand('copy');  // Copia el texto al portapapeles
+            document.body.removeChild(textArea);  // Elimina el área de texto
+      
+            alert('Texto copiado al portapapeles. Ahora puedes pegarlo donde desees compartirlo.');
             location.reload();
           }
         });
       
         linkContainer.appendChild(document.createElement('br')); // Salto de línea
         linkContainer.appendChild(shareButton);
-        })  // Cierre del segundo then
+      }) 
         .catch(error => {
           console.error('Error al acortar el enlace:', error);
         }); // Cierre del catch

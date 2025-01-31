@@ -22,28 +22,30 @@ const message = decodeURIComponent(urlParams.get('message'));
 const soundcloudTrack = decodeURIComponent(urlParams.get('soundcloudTrack')); // Decodificar URL de SoundCloud
 let spotifyTrack = decodeURIComponent(urlParams.get('spotifyTrack')); // Decodificar URL de Spotify
 const cupons = decodeURIComponent(urlParams.get('cupons')); // Decodificar lista de cupones como string
-// Guardar el método XMLHttpRequest original
-const originalXHR = XMLHttpRequest.prototype.open;
 
-// Sobrescribir el método open de XMLHttpRequest
-XMLHttpRequest.prototype.open = function(method, url, async, user, password) {
-  // Verificar si la solicitud está relacionada con la URL de Spotify
-  if (url.includes('spotifycdn.com/image')) {
-    console.log('Solicitud de recurso de Spotify capturada:', url);
-  }
 
-  // Llamar al método original open
-  return originalXHR.apply(this, arguments);
-};
+console.log( spotifyTrack);
+
 
 
 // Eliminar "intl-es" de la URL de Spotify si existe
 if (spotifyTrack) {
     spotifyTrack = removeIntlFromSpotifyURL(spotifyTrack);
     // Extraer solo el ID del track de Spotify
+
+
     spotifyTrack = extractSpotifyTrackId(spotifyTrack);
+    
     console.log('Spotify Track después de eliminar intl-es y extraer el ID:', spotifyTrack);
 }
+
+function extractSpotifyTrackId(url) {
+    const match = url.match(/track\/([a-zA-Z0-9]+)/);
+    return match ? match[1] : null;
+
+    console.log(trackId);
+}
+
 
 // Mostrar el nombre del remitente y destinatario
 document.getElementById('senderName').textContent = senderName;
@@ -155,7 +157,6 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 });
 
-
         function openEnvelope() {
             const image = document.getElementById('envelope-image');
             const details = document.getElementById('envelope-details');
@@ -168,124 +169,203 @@ document.addEventListener('DOMContentLoaded', function () {
             element.classList.toggle('opened');
         }
 
-        function generateImage() {
-    const content = document.getElementById("capture-content");
-
-    if (!content) {
-        console.error("El elemento con ID 'capture-content' no existe.");
-        return;
-    }
-
-    // Obtener el título de la canción desde la URL
-    const soundcloudTrack = urlParams.get('soundcloudTrack');
-
-    if (soundcloudTrack) {
-        const urlSegments = soundcloudTrack.split('/');
-        let songTitle = urlSegments[urlSegments.length - 1];
-        songTitle = songTitle.split('?')[0].replace(/-/g, ' ');
-
-        const songTitleContainer = document.getElementById("song-title-container");
-        if (songTitleContainer) {
-            songTitleContainer.innerHTML = `<p style="font-size: 36px; font-weight: bold; text-align: center;">${songTitle}</p>`;
-        }
-    } else {
-        console.warn("No se encontró el parámetro 'soundcloudTrack' en la URL.");
-    }
-
-    // Ocultar el contenedor del reproductor de audio solo para la captura
-    const audioContainer = document.getElementById("audio-container");
-    if (audioContainer) {
-        audioContainer.style.display = "none";
-    }
-
-    // Ocultar el contenedor de Spotify solo para la captura
-    const spotifyContainer = document.getElementById("spotify-container");
-    if (spotifyContainer) {
-        spotifyContainer.style.display = "none";
-    }
-
-    // Ajustar el contenido antes de capturar
-    document.body.style.overflow = "hidden"; // Evitar desplazamientos durante la captura
-
-    // Obtener la URL de la canción de Spotify desde los parámetros de la URL
-    const spotifyTrack = urlParams.get('spotifyTrack');
-    console.log("spotifyTrack:", spotifyTrack);  // Log para verificar el parámetro
-
-    if (spotifyTrack) {
-        const spotifyUrl = spotifyTrack; // Usamos directamente la URL de Spotify desde la query
-        console.log("spotifyUrl:", spotifyUrl);  // Log para verificar la URL
-
-        // Validar la URL de Spotify
-        if (spotifyUrl && spotifyUrl.startsWith("https://open.spotify.com")) {
-            console.log("URL de Spotify válida");  // Log si la URL es válida
-
-            // Crear la URL para generar el código de Spotify
-            const spotifyCodeUrl = `https://www.spotifycodes.com/generate?url=${encodeURIComponent(spotifyUrl)}`;
-            console.log("spotifyCodeUrl:", spotifyCodeUrl);  // Log para verificar la URL de la API
-
-            // Crear una imagen del código de Spotify y mostrarla
-            const spotifyCodeImg = document.createElement('img');
-            spotifyCodeImg.src = spotifyCodeUrl;
-            spotifyCodeImg.alt = "Spotify Code";
-            spotifyCodeImg.style.width = '200px'; // Tamaño opcional para la imagen
-
-            // Agregar la imagen del código de Spotify al contenedor de la página
-            const spotifyCodeContainer = document.getElementById("spotifyCodeContainer");
-            if (spotifyCodeContainer) {
-                spotifyCodeContainer.innerHTML = '';  // Limpiar el contenedor antes de agregar el nuevo código
-                spotifyCodeContainer.appendChild(spotifyCodeImg);
+  
+        async function getSpotifyToken() {
+            const clientId = 'd76d118354304ac595e26bfb19be3596'; // Tu clientId
+            const clientSecret = '3fdfeeb778a948e0bd51a5af4fb3c4dd'; // Tu clientSecret
+        
+            const credentials = btoa(`${clientId}:${clientSecret}`); // Corrección en la interpolación
+        
+            try {
+                const response = await fetch('https://accounts.spotify.com/api/token', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        'Authorization': `Basic ${credentials}`, // Corrección en la interpolación
+                    },
+                    body: 'grant_type=client_credentials',
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Error al obtener el token de Spotify');
+                }
+        
+                const data = await response.json();
+                const accessToken = data.access_token;
+        
+                console.log('Conexión exitosa. Token de acceso obtenido:', accessToken);
+                return accessToken;
+            } catch (error) {
+                console.error('Error al obtener el token de Spotify:', error);
+                return null;
             }
-        } else {
-            console.warn("No se encontró un enlace válido de Spotify.");
         }
-    } else {
-        console.warn("No se encontró el parámetro 'spotifyTrack' en la URL.");
-    }
-
-    // Esperar un breve tiempo antes de capturar la imagen
-    setTimeout(() => {
-        // Ajuste de escala basado en el dispositivo
-        const scaleFactor = window.devicePixelRatio || 1; // Ajusta según la densidad de píxeles del dispositivo
-
-        html2canvas(content, {
-            useCORS: true,
-            scale: scaleFactor,
-        }).then(canvas => {
-            // Agregar margen al canvas
-            const margin = 20;
-            const canvasWithMargin = document.createElement("canvas");
-            const ctx = canvasWithMargin.getContext("2d");
-
-            canvasWithMargin.width = canvas.width + margin * 2;
-            canvasWithMargin.height = canvas.height + margin * 2;
-
-            ctx.fillStyle = "#ffffff"; // Fondo blanco
-            ctx.fillRect(0, 0, canvasWithMargin.width, canvasWithMargin.height);
-            ctx.drawImage(canvas, margin, margin);
-
-            // Crear un enlace para descargar la imagen
-            const link = document.createElement("a");
-            link.download = "captura_con_margen.png";
-            link.href = canvasWithMargin.toDataURL("image/png");
-            link.click();
-
-            // Restaurar el contenedor de audio y Spotify después de la captura
-            if (audioContainer) {
-                audioContainer.style.display = "block";
+        
+        async function fetchSpotifyTrackImage(trackUrl, accessToken) {
+            const apiUrl = `https://api.spotify.com/v1/tracks/${spotifyTrack}`; // Corrección en la interpolación
+        
+            try {
+                const response = await fetch(apiUrl, {
+                    headers: {
+                        'Authorization': `Bearer ${accessToken}`, // Corrección en la interpolación
+                    },
+                });
+        
+                if (!response.ok) {
+                    throw new Error('Error al obtener la información de la pista');
+                }
+        
+                const trackData = await response.json();
+                const albumImageUrl = trackData.album.images[0].url;
+                const trackName = trackData.name;
+                const artistName = trackData.artists.map(artist => artist.name).join(', ');
+        
+                console.log('Canción:', trackName);
+                console.log('Artista(s):', artistName);
+                console.log('Imagen del álbum:', albumImageUrl);
+        
+                return {
+                    albumImageUrl,
+                    trackName,
+                    artistName
+                };
+            } catch (error) {
+                console.error('Error al obtener la imagen de la pista:', error);
+                return null;
             }
+        }
+        
+        
+        console.log('URL de Spotify obtenida:', spotifyTrack);
+        
+        // Uso de las funciones
+        (async () => {
+            const token = await getSpotifyToken();
+            if (token && spotifyTrack) {
+                const trackInfo = await fetchSpotifyTrackImage(spotifyTrack, token);
+                if (trackInfo) {
+                    console.log('Nombre de la canción:', trackInfo.trackName);
+                    console.log('Artista(s):', trackInfo.artistName);
+                    console.log('Imagen del álbum:', trackInfo.albumImageUrl);
+                }
+            }
+        })();
+
+        async function generateImage() {
+            const content = document.getElementById("capture-content");
+            const spotifyContainer = document.getElementById("spotify-container");
+        
+            if (!content) {
+                console.error("El elemento con ID 'capture-content' no existe.");
+                return;
+            }
+        
+            const urlParams = new URLSearchParams(window.location.search);
+            const soundcloudTrack = urlParams.get('soundcloudTrack');
+        
+            let songTitle = "Desconocido";
+            if (soundcloudTrack) {
+                const urlSegments = soundcloudTrack.split('/');
+                songTitle = urlSegments[urlSegments.length - 1].split('?')[0].replace(/-/g, ' ');
+            } else {
+                console.warn("No se encontró el parámetro 'soundcloudTrack' en la URL.");
+            }
+        
+            const songTitleContainer = document.getElementById("song-title-container");
+        
+            // Crear un contenedor oculto solo para la captura
+            songTitleContainer.innerHTML = `
+                <div id="capture-only" class="hidden-for-web">
+                    <p style="font-size: 36px; font-weight: bold; text-align: center;">${songTitle}</p>
+                </div>
+            `;
+        
+            const spotifyTrack = urlParams.get('spotifyTrack');
+            let albumImageUrl = "";
+            let trackName = songTitle;
+            let artistName = "Desconocido";
+        
+            if (spotifyTrack) {
+                const token = await getSpotifyToken();
+                if (token) {
+                    const trackInfo = await fetchSpotifyTrackImage(spotifyTrack, token);
+                    if (trackInfo) {
+                        albumImageUrl = trackInfo.albumImageUrl;
+                        trackName = trackInfo.trackName;
+                        artistName = trackInfo.artistName;
+                    }
+                }
+            }
+        
+            // Actualizar el contenedor oculto con la información de Spotify
+            songTitleContainer.innerHTML = `
+                <div id="capture-only" class="hidden-for-web">
+                    ${albumImageUrl ? `<img src="${albumImageUrl}" alt="Portada del Álbum" style="width: 200px; height: 200px; display: block; margin: auto; border: 4px solid black; border-radius: 8px;">` : ""}
+                    <div style="border: 4px solid black; border-radius: 8px; padding: 10px; text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 36px;">
+                        <i class="bi bi-skip-backward" style="font-size: 36px; cursor: pointer;"></i>
+                        <i class="bi bi-play" style="font-size: 36px; cursor: pointer;"></i>
+                        <i class="bi bi-skip-forward" style="font-size: 36px; cursor: pointer;"></i>
+                    </div>
+                    <p style="font-size: 36px; font-weight: bold; text-align: center;">
+                        ${trackName} 
+                    </p>
+                    <p style="font-size: 24px; text-align: center;">
+                        ${artistName} 
+                        <i class="bi bi-spotify" style="font-size: 24px; margin-left: 10px; cursor: pointer;"></i>
+                    </p>
+                </div>
+            `;
+        
+            // Ocultar el contenedor de Spotify solo durante la captura
             if (spotifyContainer) {
-                spotifyContainer.style.display = "block";
+                spotifyContainer.style.display = "none";
             }
-
-            // Restaurar el desplazamiento
-            document.body.style.overflow = "";
-        }).catch(error => {
-            console.error("Error al generar la imagen:", error);
-            document.body.style.overflow = "";
-        });
-    }, 300); // Agregar un pequeño retraso para asegurar que los cambios de diseño se apliquen
-}
-
+        
+            setTimeout(() => {
+                // Mostrar temporalmente el contenido oculto antes de la captura
+                document.getElementById("capture-only").classList.remove("hidden-for-web");
+        
+                const scaleFactor = window.devicePixelRatio || 1;
+                html2canvas(content, {
+                    useCORS: true,
+                    scale: scaleFactor,
+                }).then(canvas => {
+                    // Restaurar el contenedor de Spotify y ocultar el contenido temporalmente después de la captura
+                    if (spotifyContainer) {
+                        spotifyContainer.style.display = "block";
+                    }
+                    document.getElementById("capture-only").classList.add("hidden-for-web");
+        
+                    const margin = 20;
+                    const canvasWithMargin = document.createElement("canvas");
+                    const ctx = canvasWithMargin.getContext("2d");
+        
+                    canvasWithMargin.width = canvas.width + margin * 2;
+                    canvasWithMargin.height = canvas.height + margin * 2;
+        
+                    ctx.fillStyle = "#ffffff"; // Fondo blanco
+                    ctx.fillRect(0, 0, canvasWithMargin.width, canvasWithMargin.height);
+                    ctx.drawImage(canvas, margin, margin);
+        
+                    // Crear un enlace para la descarga
+                    const link = document.createElement("a");
+                    link.download = "captura_con_margen.png";
+                    link.href = canvasWithMargin.toDataURL("image/png");
+        
+                    // Usar 'setTimeout' para asegurarse de que el clic suceda después del renderizado
+                    setTimeout(() => {
+                        link.click();
+        
+                        // Recargar la página después de la descarga
+                        location.reload();  // Recarga la página como si fuera la primera vez que se abre
+                    }, 0);
+                }).catch(error => {
+                    console.error("Error al generar la imagen:", error);
+                });
+            }, 300);
+        }
+        
+       
         function generateImage1() {
             // Obtener el contenedor del cupón
             const content = document.getElementById("coupon-container");
