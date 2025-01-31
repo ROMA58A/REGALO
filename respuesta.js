@@ -24,7 +24,7 @@ let spotifyTrack = decodeURIComponent(urlParams.get('spotifyTrack')); // Decodif
 const cupons = decodeURIComponent(urlParams.get('cupons')); // Decodificar lista de cupones como string
 
 
-console.log( spotifyTrack);
+
 
 
 
@@ -35,15 +35,12 @@ if (spotifyTrack) {
 
 
     spotifyTrack = extractSpotifyTrackId(spotifyTrack);
-    
-    console.log('Spotify Track después de eliminar intl-es y extraer el ID:', spotifyTrack);
+
 }
 
 function extractSpotifyTrackId(url) {
     const match = url.match(/track\/([a-zA-Z0-9]+)/);
     return match ? match[1] : null;
-
-    console.log(trackId);
 }
 
 
@@ -193,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const data = await response.json();
                 const accessToken = data.access_token;
         
-                console.log('Conexión exitosa. Token de acceso obtenido:', accessToken);
+               
                 return accessToken;
             } catch (error) {
                 console.error('Error al obtener el token de Spotify:', error);
@@ -220,9 +217,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 const trackName = trackData.name;
                 const artistName = trackData.artists.map(artist => artist.name).join(', ');
         
-                console.log('Canción:', trackName);
-                console.log('Artista(s):', artistName);
-                console.log('Imagen del álbum:', albumImageUrl);
+              
         
                 return {
                     albumImageUrl,
@@ -236,7 +231,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
         
         
-        console.log('URL de Spotify obtenida:', spotifyTrack);
+      
         
         // Uso de las funciones
         (async () => {
@@ -244,9 +239,7 @@ document.addEventListener('DOMContentLoaded', function () {
             if (token && spotifyTrack) {
                 const trackInfo = await fetchSpotifyTrackImage(spotifyTrack, token);
                 if (trackInfo) {
-                    console.log('Nombre de la canción:', trackInfo.trackName);
-                    console.log('Artista(s):', trackInfo.artistName);
-                    console.log('Imagen del álbum:', trackInfo.albumImageUrl);
+                   
                 }
             }
         })();
@@ -299,21 +292,28 @@ document.addEventListener('DOMContentLoaded', function () {
         
             // Actualizar el contenedor oculto con la información de Spotify
             songTitleContainer.innerHTML = `
-                <div id="capture-only" class="hidden-for-web">
-                    ${albumImageUrl ? `<img src="${albumImageUrl}" alt="Portada del Álbum" style="width: 200px; height: 200px; display: block; margin: auto; border: 4px solid black; border-radius: 8px;">` : ""}
-                    <div style="border: 4px solid black; border-radius: 8px; padding: 10px; text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 36px;">
-                        <i class="bi bi-skip-backward" style="font-size: 36px; cursor: pointer;"></i>
-                        <i class="bi bi-play" style="font-size: 36px; cursor: pointer;"></i>
-                        <i class="bi bi-skip-forward" style="font-size: 36px; cursor: pointer;"></i>
-                    </div>
-                    <p style="font-size: 36px; font-weight: bold; text-align: center;">
-                        ${trackName} 
-                    </p>
-                    <p style="font-size: 24px; text-align: center;">
-                        ${artistName} 
-                        <i class="bi bi-spotify" style="font-size: 24px; margin-left: 10px; cursor: pointer;"></i>
-                    </p>
-                </div>
+           <div id="capture-only" class="hidden-for-web" style="border: 4px solid black; border-radius: 8px; padding: 20px;">
+    ${albumImageUrl ? `<img src="${albumImageUrl}" alt="Portada del Álbum" style="width: 200px; height: 200px; display: block; margin: auto; border: 4px solid black; border-radius: 8px;">` : ""}
+    
+    <!-- Contenedor de los íconos de control -->
+    <div style="border: 4px solid black; border-radius: 8px; padding: 10px; text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 36px;">
+        <i class="bi bi-skip-backward" style="font-size: 36px; cursor: pointer;"></i>
+        <i class="bi bi-play" style="font-size: 36px; cursor: pointer;"></i>
+        <i class="bi bi-skip-forward" style="font-size: 36px; cursor: pointer;"></i>
+    </div>
+    
+    <!-- Nombre de la canción -->
+    <p style="font-size: 36px; font-weight: bold; text-align: center;">
+        ${trackName} 
+    </p>
+    
+    <!-- Nombre del artista con ícono de Spotify -->
+    <p style="font-size: 24px; text-align: center;">
+        ${artistName} 
+        <i class="bi bi-spotify" style="font-size: 24px; margin-left: 10px; cursor: pointer;"></i>
+    </p>
+</div>
+
             `;
         
             // Ocultar el contenedor de Spotify solo durante la captura
