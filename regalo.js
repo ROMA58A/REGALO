@@ -1,130 +1,228 @@
-function generateImage() {
-  const element = document.querySelector('.sheet-content');
+document.addEventListener('DOMContentLoaded', function() {
+  // Elementos del DOM
+  const includeSoundCloudCheckbox = document.getElementById('include-soundcloud');
+  const soundcloudContainer = document.getElementById('soundcloud-container');
+  const includeSpotifyCheckbox = document.getElementById('include-spotify');
+  const spotifyContainer = document.getElementById('spotify-container');
 
-  if (!element) {
-    console.error('No se encontró .sheet-content');
-    return;
-  }
-
-  const urlParams = new URLSearchParams(window.location.search);
-  const senderName = decodeURIComponent(urlParams.get('senderName'));
-  const recipientName = decodeURIComponent(urlParams.get('recipientName'));
-  const message = decodeURIComponent(urlParams.get('message'));
-  const soundcloudTrack = urlParams.get('soundcloudTrack');
-
-  if (!senderName || !recipientName || !message) {
-    console.error('Faltan datos necesarios para generar la imagen');
-    return;
-  }
-
-  const formattedMessage = message.replace(/\n/g, '<br>');
-  document.getElementById('message').innerHTML = formattedMessage;
-
-  document.getElementById('senderName').textContent = senderName;
-  document.getElementById('recipientName').textContent = recipientName;
-
-  const canvas = document.createElement('canvas');
-  const ctx = canvas.getContext('2d');
-  canvas.width = 1080;
-  canvas.height = 1505;
-
-  ctx.fillStyle = '#fa9fa2';
-  ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-  ctx.font = '45px Helvetica, Arial';
-  ctx.fillStyle = '#333';
-
-  let yOffset = 150;
-  const marginLeft = 50;
-  const lineHeight = 50;
-  const maxWidth = canvas.width - marginLeft * 2;
-
-  ctx.font = 'bold 40px Helvetica, Arial';
-  ctx.fillText(`De parte de: ${senderName}`, marginLeft, yOffset);
-  yOffset += lineHeight;
-  ctx.fillText(`Para ti, persona especial: ${recipientName}`, marginLeft, yOffset);
-  yOffset += lineHeight;
-
-  const lines = formattedMessage.split('<br>');
-  lines.forEach((line) => {
-    const words = line.split(' ');
-    let currentLine = '';
-    words.forEach((word) => {
-      const testLine = currentLine + word + ' ';
-      const testWidth = ctx.measureText(testLine).width;
-      if (testWidth > maxWidth) {
-        ctx.fillText(currentLine.trim(), marginLeft, yOffset);
-        currentLine = word + ' ';
-        yOffset += lineHeight;
+  // Verificar que los elementos existen antes de agregar los event listeners
+  if (includeSoundCloudCheckbox && soundcloudContainer) {
+    includeSoundCloudCheckbox.addEventListener('change', function() {
+      if (includeSoundCloudCheckbox.checked) {
+        soundcloudContainer.style.display = 'block';  // Muestra el campo de SoundCloud
       } else {
-        currentLine = testLine;
+        soundcloudContainer.style.display = 'none';  // Oculta el campo de SoundCloud
       }
     });
-    if (currentLine) {
-      ctx.fillText(currentLine.trim(), marginLeft, yOffset);
-      yOffset += lineHeight;
+  }
+
+  if (includeSpotifyCheckbox && spotifyContainer) {
+    includeSpotifyCheckbox.addEventListener('change', function() {
+      if (includeSpotifyCheckbox.checked) {
+        spotifyContainer.style.display = 'block';  // Muestra el campo de Spotify
+      } else {
+        spotifyContainer.style.display = 'none';  // Oculta el campo de Spotify
+      }
+    });
+  }
+
+  // Elementos del DOM
+  const includeCuponCheckbox = document.getElementById('include-cupon');  // Verifica que el id coincida
+  const cuponContainer = document.getElementById('cupon-container');
+
+  // Mostrar u ocultar el contenedor de cupones al cambiar la casilla
+  includeCuponCheckbox.addEventListener('change', function() {
+    if (includeCuponCheckbox.checked) {
+      cuponContainer.style.display = 'block';  // Muestra el contenedor de cupones
+    } else {
+      cuponContainer.style.display = 'none';  // Oculta el contenedor de cupones
     }
   });
 
-  if (soundcloudTrack) {
-    const audioLink = `https://w.soundcloud.com/player/?url=${soundcloudTrack}`;
-    const qrImageUrl = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(audioLink)}&size=800x800`;
+  // Generar campos de cupones dinámicamente
+  document.getElementById('num-cupones').addEventListener('change', function() {
+    const numCupones = parseInt(this.value);
 
-    fetch(qrImageUrl) // Hacer una solicitud para obtener el QR en canvas limpio
-      .then(response => response.blob())
-      .then(imageBlob => {
-        const qrImage = new Image();
-        qrImage.onload = function () {
-          const qrSize = 300; // Incremento considerable del tamaño del QR
-          const qrX = (canvas.width - qrSize) / 2;
-          const qrY = canvas.height - 350; // Colocado más arriba en la parte inferior
-          ctx.drawImage(qrImage, qrX, qrY, qrSize, qrSize);
+    // Eliminar los campos anteriores si existen
+    const couponFieldsContainer = document.getElementById('coupon-fields-container');
+    couponFieldsContainer.innerHTML = '';  // Limpiar los campos generados previamente
 
-          // Agregar el título justo debajo del QR
-          ctx.font = 'bold 30px Helvetica, Arial';
-          ctx.fillStyle = '#333';
-          ctx.fillText('Escucha la canción que te dediqué', qrX, qrY + 325 ); // Ajustado ligeramente abajo del QR
+    // Crear los campos de cupones según el número seleccionado
+    for (let i = 1; i <= numCupones; i++) {
+      const label = document.createElement('label');
+      label.setAttribute('for', `CUPON${i}`);
+      label.innerText = `Cupón ${i}:`;
 
-          const imgData = canvas.toDataURL('image/png');
-          const link = document.createElement('a');
-          link.href = imgData;
-          link.download = 'carta.png';
-          link.click();
-        };
-        qrImage.onerror = function () {
-          console.error('Error al cargar el código QR.');
-        };
-        qrImage.src = URL.createObjectURL(imageBlob);
-      })
-      .catch(error => console.error('Error al cargar el QR:', error));
-  } else {
-    const imgData = canvas.toDataURL('image/png');
-    const link = document.createElement('a');
-    link.href = imgData;
-    link.download = 'carta.png';
-    link.click();
-  }
+      const input = document.createElement('input');
+      input.setAttribute('type', 'text');
+      input.setAttribute('id', `CUPON${i}`);
+      input.setAttribute('name', `CUPON${i}`);
+
+      const br = document.createElement('br');
+
+      couponFieldsContainer.appendChild(label);
+      couponFieldsContainer.appendChild(input);
+      couponFieldsContainer.appendChild(br);
+    }
+  });
+
+  // Asegurarse de que solo se cree 1 campo al principio
+  document.getElementById('num-cupones').value = 1;  // Establecer el valor inicial a 1
+  document.getElementById('num-cupones').dispatchEvent(new Event('change'));  // Disparar el evento para generar el campo inicial
+
+  const form = document.getElementById('unified-form');
+  if (form) {
+    form.addEventListener('submit', function(event) {
+      event.preventDefault();
+
+      const senderNameInput = document.getElementById('sender-name');
+      const recipientNameInput = document.getElementById('recipient-name');
+      const messageInput = document.getElementById('message');
+      const soundcloudTrackInput = document.getElementById('soundcloud-track');
+      const spotifyTrackInput = document.getElementById('spotify-track');
+      const includeSoundCloudCheckbox = document.getElementById('include-soundcloud'); // Asegúrate de que este checkbox exista
+      const includeSpotifyCheckbox = document.getElementById('include-spotify'); // Asegúrate de que este checkbox exista
+
+      let soundcloudTrack = '';
+      let spotifyTrack = '';
+
+      // Función para validar enlaces de SoundCloud
+      function isValidSoundCloudURL(url) {
+        const soundcloudPattern = /^(https?:\/\/)?(www\.)?(soundcloud\.com\/[a-zA-Z0-9_-]+\/[a-zA-Z0-9_-]+)$/;
+        return soundcloudPattern.test(url);
+      }
+
+      // Verificar si SoundCloud está incluido
+      if (includeSoundCloudCheckbox && includeSoundCloudCheckbox.checked) {
+        soundcloudTrack = soundcloudTrackInput.value;
+
+        // Validar el enlace de SoundCloud
+        if (!isValidSoundCloudURL(soundcloudTrack)) {
+          console.log('SoundCloud URL ingresado:', soundcloudTrack);
+          alert('Por favor, introduce un enlace válido de SoundCloud.');
+          return;
+        }
+
+        // Conversión automática de enlace móvil a PC solo para SoundCloud
+        if (soundcloudTrack.startsWith('https://m.soundcloud.com/')) {
+          soundcloudTrack = soundcloudTrack.replace('https://m.soundcloud.com/', 'https://soundcloud.com/');
+        }
+      }
+
+      // Si solo se selecciona Spotify, no se realiza validación
+      if (includeSpotifyCheckbox && includeSpotifyCheckbox.checked) {
+        spotifyTrack = spotifyTrackInput.value;
+        console.log('Spotify URL ingresado:', spotifyTrack);
+      }
+
+      document.querySelector('.loading-box').style.display = 'block';
+
+      const linkContainer = document.getElementById('link-container');
+      if (!linkContainer) {
+        console.error('No se encontró el contenedor de enlaces.');
+        return;
+      }
+
+      setTimeout(() => {
+        const cupons = [];
+        for (let i = 1; i <= 5; i++) {
+          const cupónInput = document.getElementById(`CUPON${i}`);
+          if (cupónInput) {
+            cupons.push(cupónInput.value);
+          }
+        }
+
+
+         // Función para validar el enlace de SoundCloud
+ function isValidSoundCloudURL(url) {
+  const pattern = /^(https?:\/\/)?(www\.)?soundcloud\.com\/.+/;
+  return pattern.test(url);
 }
 
-<div class="container">
-      <div class="form-container">
-        <h1 id="title-coupon">GENERAR DIFERENTES CUPONES</h1>
-        <form id="love-coupon-form">
-          
-          <label for="quantity">Cantidad de cupones:</label> 
-          <p>pon un numero asta 5 cupones</p>
-<input type="number" id="quantity" name="quantity" min="1" max="5" required>
+// Función para validar el enlace de Spotify
+function isValidSpotifyURL(url) {
+  const pattern = /^(https?:\/\/)?(www\.)?spotify\.com\/.+/;
+  return pattern.test(url);
+}
 
-</select>
-   <br>
-          <div id="coupon-fields-container"></div>
-          <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary">Generar enlace</button>
-          </div>
-        </form>
-       
-      </div>
-       <div class="image-container">
-        <img id="me" src="penguin.svg" alt="">
-      </div>
-    </div> 
+// Función para obtener el token de acceso de Spotify
+async function getSpotifyToken() {
+  const clientId = 'd76d118354304ac595e26bfb19be3596';
+  const clientSecret = '3fdfeeb778a948e0bd51a5af4fb3c4dd';
+
+  const credentials = btoa(`${clientId}:${clientSecret}`);
+  
+  const response = await fetch('https://accounts.spotify.com/api/token', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Authorization': `Basic ${credentials}`
+    },
+    body: 'grant_type=client_credentials'
+  });
+
+  if (!response.ok) {
+    throw new Error('Error al obtener el token de Spotify');
+  }
+
+  const data = await response.json();
+  console.log('Token de acceso:', data.access_token);
+  return data.access_token;
+}
+
+        // Formatear cupones como una cadena separada por comas
+        const cuponesStr = cupons.join(',');
+
+        const baseUrl = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost'
+        ? 'http://127.0.0.1:5500/respuesta.html'  // URL local
+        : 'https://roma58a.github.io/REGALO/respuesta.html';  // URL en GitHub Pages
+      
+      const url = `${baseUrl}?senderName=${encodeURIComponent(senderNameInput.value)}&recipientName=${encodeURIComponent(recipientNameInput.value)}&message=${encodeURIComponent(messageInput.value)}&soundcloudTrack=${encodeURIComponent(soundcloudTrack)}&spotifyTrack=${encodeURIComponent(spotifyTrack)}&cupons=${encodeURIComponent(cuponesStr)}`;
+      
+      fetch(`https://api.tinyurl.com/create?url=${encodeURIComponent(url)}`, {
+        method: 'POST',
+        headers: {
+          'Authorization': 'Bearer eij03zhBEwUwC7ZXHcXq6IIxzteaDHSjyXjEzYmL5rj8Vxufrdb9lBFVNwdN'
+        }
+      })
+      .then(response => response.json())
+      .then(data => {
+        const shortenedUrl = data.data.tiny_url;
+      
+        // Creamos el botón de compartir y configuramos su acción
+        const shareButton = document.createElement('button');
+        shareButton.textContent = 'Compartir enlace';
+        shareButton.addEventListener('click', function() {
+          const shareText = `¡Disfruta esta canción!\nTe envío esta canción como un abrazo musical. ¡Haz clic para escucharla! ${shortenedUrl}`;
+      
+          if (navigator.share) {
+            navigator.share({
+              title: '¡Disfruta esta canción!',
+              text: 'Te envío esta canción como un abrazo musical. ¡Haz clic para escucharla!',
+              url: shortenedUrl
+            }).then(() => {
+              console.log('Enlace compartido correctamente.');
+              location.reload();
+            }).catch((error) => {
+              console.error('Error al compartir el enlace:', error);
+              location.reload();
+            });
+          } else {
+            alert('Lo siento, tu navegador no admite la funcionalidad de compartir.');
+            location.reload();
+          }
+        });
+      
+        linkContainer.appendChild(document.createElement('br')); // Salto de línea
+        linkContainer.appendChild(shareButton);
+        })  // Cierre del segundo then
+        .catch(error => {
+          console.error('Error al acortar el enlace:', error);
+        }); // Cierre del catch
+      }, 1000);
+    });
+  }
+}); 
+
+
+
