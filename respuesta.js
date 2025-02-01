@@ -265,13 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
             }
         
             const songTitleContainer = document.getElementById("song-title-container");
-        
-            // Crear un contenedor oculto solo para la captura
-            songTitleContainer.innerHTML = `
-                <div id="capture-only" class="hidden-for-web">
-                    <p style="font-size: 36px; font-weight: bold; text-align: center;">${songTitle}</p>
-                </div>
-            `;
+            songTitleContainer.innerHTML = ''; // Limpiar el contenedor
         
             const spotifyTrack = urlParams.get('spotifyTrack');
             let albumImageUrl = "";
@@ -290,51 +284,51 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
         
-            // Actualizar el contenedor oculto con la información de Spotify
-            songTitleContainer.innerHTML = `
-           <div id="capture-only" class="hidden-for-web" style="border: 4px solid black; border-radius: 8px; padding: 20px;">
-    ${albumImageUrl ? `<img src="${albumImageUrl}" alt="Portada del Álbum" style="width: 200px; height: 200px; display: block; margin: auto; border: 4px solid black; border-radius: 8px;">` : ""}
-    
-    <!-- Contenedor de los íconos de control -->
-    <div style="border: 4px solid black; border-radius: 8px; padding: 10px; text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 36px;">
-        <i class="bi bi-skip-backward" style="font-size: 36px; cursor: pointer;"></i>
-        <i class="bi bi-play" style="font-size: 36px; cursor: pointer;"></i>
-        <i class="bi bi-skip-forward" style="font-size: 36px; cursor: pointer;"></i>
-    </div>
-    
-    <!-- Nombre de la canción -->
-    <p style="font-size: 36px; font-weight: bold; text-align: center;">
-        ${trackName} 
-    </p>
-    
-    <!-- Nombre del artista con ícono de Spotify -->
-    <p style="font-size: 24px; text-align: center;">
-        ${artistName} 
-        <i class="bi bi-spotify" style="font-size: 24px; margin-left: 10px; cursor: pointer;"></i>
-    </p>
-</div>
-
-            `;
+            // Solo mostrar el contenedor si hay información de Spotify
+            if (spotifyTrack && albumImageUrl) {
+                songTitleContainer.innerHTML = `
+                    <div id="capture-only" class="hidden-for-web" style="border: 4px solid black; border-radius: 8px; padding: 20px;">
+                        <img src="${albumImageUrl}" alt="Portada del Álbum" style="width: 200px; height: 200px; display: block; margin: auto; border: 4px solid black; border-radius: 8px;">
+                        
+                        <div style="border: 4px solid black; border-radius: 8px; padding: 10px; text-align: center; margin-top: 10px; display: flex; justify-content: center; align-items: center; gap: 36px;">
+                            <i class="bi bi-skip-backward" style="font-size: 36px; cursor: pointer;"></i>
+                            <i class="bi bi-play" style="font-size: 36px; cursor: pointer;"></i>
+                            <i class="bi bi-skip-forward" style="font-size: 36px; cursor: pointer;"></i>
+                        </div>
+                        
+                        <p style="font-size: 36px; font-weight: bold; text-align: center;">
+                            ${trackName} 
+                        </p>
+                        
+                        <p style="font-size: 24px; text-align: center;">
+                            ${artistName} 
+                            <i class="bi bi-spotify" style="font-size: 24px; margin-left: 10px; cursor: pointer;"></i>
+                        </p>
+                    </div>
+                `;
+            }
         
-            // Ocultar el contenedor de Spotify solo durante la captura
             if (spotifyContainer) {
                 spotifyContainer.style.display = "none";
             }
         
             setTimeout(() => {
-                // Mostrar temporalmente el contenido oculto antes de la captura
-                document.getElementById("capture-only").classList.remove("hidden-for-web");
+                const captureOnly = document.getElementById("capture-only");
+                if (captureOnly) {
+                    captureOnly.classList.remove("hidden-for-web");
+                }
         
                 const scaleFactor = window.devicePixelRatio || 1;
                 html2canvas(content, {
                     useCORS: true,
                     scale: scaleFactor,
                 }).then(canvas => {
-                    // Restaurar el contenedor de Spotify y ocultar el contenido temporalmente después de la captura
                     if (spotifyContainer) {
                         spotifyContainer.style.display = "block";
                     }
-                    document.getElementById("capture-only").classList.add("hidden-for-web");
+                    if (captureOnly) {
+                        captureOnly.classList.add("hidden-for-web");
+                    }
         
                     const margin = 20;
                     const canvasWithMargin = document.createElement("canvas");
@@ -343,27 +337,24 @@ document.addEventListener('DOMContentLoaded', function () {
                     canvasWithMargin.width = canvas.width + margin * 2;
                     canvasWithMargin.height = canvas.height + margin * 2;
         
-                    ctx.fillStyle = "#ffffff"; // Fondo blanco
+                    ctx.fillStyle = "#ffffff";
                     ctx.fillRect(0, 0, canvasWithMargin.width, canvasWithMargin.height);
                     ctx.drawImage(canvas, margin, margin);
         
-                    // Crear un enlace para la descarga
                     const link = document.createElement("a");
                     link.download = "captura_con_margen.png";
                     link.href = canvasWithMargin.toDataURL("image/png");
         
-                    // Usar 'setTimeout' para asegurarse de que el clic suceda después del renderizado
                     setTimeout(() => {
                         link.click();
-        
-                        // Recargar la página después de la descarga
-                        location.reload();  // Recarga la página como si fuera la primera vez que se abre
+                        location.reload();
                     }, 0);
                 }).catch(error => {
                     console.error("Error al generar la imagen:", error);
                 });
             }, 300);
         }
+        
         
        
         function generateImage1() {
