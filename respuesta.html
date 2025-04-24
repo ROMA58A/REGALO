@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link
+        href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+        rel="stylesheet">
+    <!-- Vendor CSS Files -->
+    <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+      <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+    <link rel="stylesheet" href="style1.css">
+
+<body>
+    <header id="header" class="fixed-top ">
+        <div class="container d-flex align-items-center justify-content-between">
+            <h1 class="logo"><a href="index.html"><i class="bi bi-chat-right-heart-fill"></i>Mensajes expres</a></h1>
+            <!-- Uncomment below if you prefer to use an image logo -->
+            <!-- <a href="index.html" class="logo"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
+
+            <nav id="navbar" class="navbar">
+                <ul>
+                    <li><a class="nav-link scrollto active" href="#hero">inicio </a></li>
+                    <li><a class="nav-link scrollto" href="#contact">enviar mensaje</a></li>
+
+                </ul>
+                <i class="bi bi-list mobile-nav-toggle"></i>
+            </nav><!-- .navbar -->
+
+        </div>
+    </header>
+    <section id="hero" class="d-flex align-items-center">
+        <div class="container-fluid" data-aos="fade-up">
+            <div class="row justify-content-center">
+                <div
+                    class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+                    <h1>¡Tienes una carta esperando por ti!</h1>
+                    <h2>¡Alguien tiene algo que decirte! Revisa tu carta.</h2>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="main-section section-bg d-flex flex-column justify-content-center align-items-center"
+        style="min-height: 100vh;">
+  <!-- Sección de la carta -->
+        <div class="box mb-4" onclick="openSheet(this)">
+            <div class="folded-sheet">
+                <!-- Parte superior de la hoja -->
+                <div class="sheet-part top d-flex justify-content-center align-items-center">
+                    <i class="bi bi-heart-fill" style="color: red; font-size: 40px;"></i>
+                </div>
+                <!-- Parte media de la hoja con mensaje -->
+                <div class="sheet-part middle">
+                    <div class="message">
+                        <h1>¡Has recibido una carta!</h1>
+                        <p>Abre la carta para ver el contenido.</p>
+                    </div>
+                    <br><br>
+                </div>
+                <!-- Contenido del sobre (mensaje abierto) -->
+                <div class="sheet-content" id="capture-content">
+                    <h1>ESTE MENSAJE DE PARTE DE: <strong><span id="senderName"></span></strong></h1>
+                    <h1>Para ti Persona especial: <strong><span id="recipientName"></span>.</strong></h1>
+                    <p><span id="message"></span></p>
+                    <div class="d-flex justify-content-center align-items-center mt-3">
+                        <i class="bi bi-heart-fill icons"></i>
+                        <i class="bi bi-heart icons"></i>
+                        <i class="bi bi-heart-half icons"></i>
+                        <i class="bi bi-suit-heart-fill icons"></i>
+                        <i class="bi bi-suit-heart icons"></i>
+                    </div>
+                    <div id="audio-container"></div>
+                    <div id="spotify-container"></div>
+                    <div id="song-title-container"></div>
+                    <!-- Contenedor que se muestra solo si hay 'soundcloudTrack' -->
+                    <div id="song-container" style="display: none;">
+                        <p><strong>Te dedico esta canción:</strong></p>
+                        <h1><strong>
+                                <div id="song-title-container"></div>
+                            </strong></h1>
+                        <strong>
+                            <p>Escúchala en Spotify</p>
+                        </strong>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="boss">
+            <h2><strong> revisa si tienes cupones de amor</strong></h2>
+        </div>
+        <!-- Sección del cupón -->
+        <div class="box1" onclick="openSheet(this)">
+            <div class="folded-sheet">
+                <!-- Parte superior del cupón (icono de cupón) -->
+                <div class="sheet-part top d-flex justify-content-center align-items-center">
+                    <i class="bi bi-gift-fill" style="color: #ff6347; font-size: 40px;"></i>
+                </div>
+
+                <!-- Parte media del cupón con mensaje -->
+                <div class="sheet-part middle">
+                    <div class="message">
+                        <h1>¡Has recibido un cupón!</h1>
+                        <p>Abre el cupón para ver el código.</p>
+                    </div>
+                    <br><br>
+                </div>
+                <!-- Contenido del cupón (código del cupón) -->
+                <div class="sheet-content" id="coupon-container">
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <div class="booton" data-aos="fade-up">
+        <div class="container-fluid">
+            <a href="index.html">¿Quieres responder?</a>
+            <button onclick="generateImage()">Descargar carta </button>
+            <button onclick="generateImage1()">Descargar cupones </button>
+        </div>
+    </div>
+    <footer id="footer">
+
+        <div class="footer-top">
+            <div class="container">
+                <div class="row">
+                    <h1>¡No tengas miedo de expresar tus emociones!</h1>
+                </div>
+                <div class="container">
+
+                    <div class="copyright-wrap d-md-flex py-4">
+                        <div class="me-md-auto text-center text-md-start">
+                            <div class="copyright">
+                                &copy; Copyright <strong><span>ROMA</span></strong>. All Rights Reserved
+                            </div>
+
+                        </div>
+                        <div class="social-links text-center text-md-right pt-3 pt-md-0">
+                            <a href="https://github.com/ROMA58A" class="github"><i class="bi bi-github"></i></a>
+                            <a href="https://www.facebook.com/brandon.ayala.71216/?locale=es_LA"><i
+                                    class="bi bi-facebook"></i></a>
+
+                        <a href="https://www.linkedin.com/in/brand-ayala/"><i class="bi bi-linkedin"></i></a>
+                        </div>
+
+                    </div>
+    </footer><!-- End Footer -->
+
+    <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i
+            class="bi bi-arrow-up-short"></i></a>
+    <div id="preloader"></div>
+    <!-- Vendor JS Files -->
+    <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+    <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+
+
+    <!-- Template Main JS File -->
+    <script src="main.js"></script>
+    <script src="respuesta.js"></script>
+</body>
+
+</html>

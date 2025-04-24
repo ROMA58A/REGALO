@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link
+    href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Roboto:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i"
+    rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/glightbox/dist/css/glightbox.min.css" />
+  <link href="https://unpkg.com/swiper/swiper-bundle.min.css" rel="stylesheet">
+
+
+  <link rel="stylesheet" href="style.css">
+
+  <title>Abrazo musical</title>
+</head>
+
+<header id="header" class="fixed-top ">
+  <div class="container d-flex align-items-center justify-content-between">
+    <h1 class="logo"><a href="index.html">Mensajes expres</a></h1>
+    <nav id="navbar" class="navbar">
+      <ul>
+        <li><a class="nav-link scrollto active" href="#hero">inicio </a></li>
+        <li><a class="nav-link scrollto" href="#contact">enviar mensaje</a></li>
+
+      </ul>
+      <i class="bi bi-list mobile-nav-toggle"></i>
+    </nav><!-- .navbar -->
+
+  </div>
+</header>
+
+
+<body>
+
+  <section id="hero" class="d-flex align-items-center">
+    <div class="container-fluid" data-aos="fade-up">
+      <div class="row justify-content-center">
+        <div class="col-xl-5 col-lg-6 pt-3 pt-lg-0 order-2 order-lg-1 d-flex flex-column justify-content-center">
+          <h1>Sé auténtico y sincero en todo lo que digas.</h1>
+          <h2>Puedes personalizar el mensaje para adaptarlo a la persona a la que lo envías</h2>
+          <div><a href="#contact" class="btn-get-started scrollto">enviar Mensaje</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <section id="contact" class="contact section-bg">
+    <div class="container">
+      <div class="form-container">
+        <h1 id="title">ENVIAR MENSAJE A ESA PERSONA ESPECIAL</h1>
+        <form id="unified-form">
+          <label for="sender-name">Tu nombre:</label>
+          <input type="text" id="sender-name" name="sender-name" required>
+  
+          <label for="recipient-name">Nombre del destinatario:</label>
+          <input type="text" id="recipient-name" name="recipient-name" required>
+  
+          <label for="message">Mensaje:</label>
+          <textarea id="message" name="message" rows="4" required></textarea>
+
+          <label for="include-spotify">Incluir enlace de Spotify:
+            <input type="checkbox" id="include-spotify" name="include-spotify">
+          </label>
+          
+          <div id="spotify-container" style="display: none;">
+            <label for="spotify-track">Enlace de Spotify:</label>
+            <p>Ir a <a href="https://spotify.com" target="_blank">Spotify</a> y copia el enlace del track.</p>
+            <input type="text" id="spotify-track" name="spotify-track" placeholder="https://spotify.com/...">
+          </div>
+  
+          <label for="include-soundcloud">Incluir enlace de SoundCloud:
+            <input type="checkbox" id="include-soundcloud" name="include-soundcloud">
+          </label>
+          
+          <div id="soundcloud-container" style="display: none;">
+            <label for="soundcloud-track">Enlace de SoundCloud:</label>
+            <p>Ir a <a href="https://soundcloud.com" target="_blank">SoundCloud</a> y copia el enlace del track.</p>
+            <input type="text" id="soundcloud-track" name="soundcloud-track" placeholder="https://soundcloud.com/...">
+          </div>
+
+          <label for="include-cupon">Incluir cupón:
+            <input type="checkbox" id="include-cupon" name="include-cupon"> <!-- Cambié el id aquí -->
+          </label>
+          
+          <div id="cupon-container" style="display: none;">
+            <label for="num-cupones">Número de cupones:</label>
+            <select id="num-cupones" name="num-cupones">
+              <option value="1">1</option>
+              <option value="2">2</option>
+              <option value="3">3</option>
+              <option value="4">4</option>
+              <option value="5" selected>5</option>
+            </select>
+            <br>
+          
+            <div id="coupon-fields-container"></div>
+          </div>
+          
+  
+          <div class="d-flex justify-content-center">
+            <button type="submit" class="btn btn-primary">Generar enlace</button>
+          </div>
+        </form>
+      </div>
+      <div class="image-container">
+        <img id="me" src="penguin.svg" alt="">
+      </div>
+    </div>
+    <div class="box d-flex justify-content-center align-items-center">
+      <h3 id="state-message">cargando...</h3>
+    </div>
+    <div class="box d-flex justify-content-center align-items-center">
+      <div class="loading-box" style="display:none;"></div>
+    </div>
+    <div class="box d-flex justify-content-center align-items-center">
+      <div id="link-container">&nbsp;</div>
+    </div>
+  </section>
+  
+  <script>
+
+  </script>
+  
+ 
+  
+  <footer id="footer">
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+          <h1>¡No tengas miedo de expresar tus emociones!</h1>
+        </div>
+        <div class="container">
+
+          <div class="copyright-wrap d-md-flex py-4">
+            <div class="me-md-auto text-center text-md-start">
+              <div class="copyright">
+                &copy; Copyright <strong><span>ROMA</span></strong>. All Rights Reserved
+              </div>
+
+            </div>
+            <div class="social-links text-center text-md-right pt-3 pt-md-0">
+              <a href="https://github.com/ROMA58A" class="github"><i class="bi bi-github"></i></a>
+              <a href="https://www.facebook.com/brandon.ayala.71216/?locale=es_LA"><i class="bi bi-facebook"></i></a>
+              <a href="https://www.linkedin.com/in/brand-ayala/" ><i class="bi bi-linkedin"></i></a>
+            </div>
+          </div>
+
+        </div>
+  </footer><!-- End Footer -->
+
+
+
+  <!-- Vendor JS Files -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/mcstudios/glightbox/dist/js/glightbox.min.js"></script>
+  <script src="https://unpkg.com/isotope-layout@3/dist/isotope.pkgd.min.js"></script>
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="main.js"></script>
+  <script src="regalo.js"></script>
+  <script src="https://open.spotify.com/embed/iframe-api/v1" async></script>
+
+</body>
+
+</html>
