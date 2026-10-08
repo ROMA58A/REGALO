@@ -302,15 +302,17 @@ document.addEventListener('DOMContentLoaded', () => {
       byId('include-roses').checked
     ];
     const compressedPayload = await compressPayload(payload);
-    const key = await window.crypto.subtle.generateKey({ name: 'AES-GCM', length: 128 }, true, ['encrypt']);
-    const rawKey = new Uint8Array(await window.crypto.subtle.exportKey('raw', key));
+    // Secreto corto de 12 caracteres (72 bits) del que se deriva la clave AES-128.
+    const secret = bytesToBase64Url(window.crypto.getRandomValues(new Uint8Array(9)));
+    const keyBytes = new Uint8Array(await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(secret))).subarray(0, 16);
+    const key = await window.crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']);
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
     const encrypted = new Uint8Array(await window.crypto.subtle.encrypt({ name: 'AES-GCM', iv }, key, compressedPayload));
     const encryptedPayload = new Uint8Array(iv.length + encrypted.length);
     encryptedPayload.set(iv);
     encryptedPayload.set(encrypted, iv.length);
     url.searchParams.set('c', bytesToBase64Url(encryptedPayload));
-    url.hash = `k=${bytesToBase64Url(rawKey)}`;
+    url.hash = `k=${secret}`;
     return url.href;
   };
 

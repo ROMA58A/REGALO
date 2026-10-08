@@ -23,9 +23,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         if (!keyString) throw new Error('Falta la clave de cifrado en el enlace.');
         const encryptedBytes = base64UrlToBytes(params.get('c'));
         if (encryptedBytes.length <= 28) throw new Error('El contenido cifrado está incompleto.');
+        const keyBytes = keyString.length <= 16
+          ? new Uint8Array(await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(keyString))).subarray(0, 16)
+          : base64UrlToBytes(keyString);
         const key = await window.crypto.subtle.importKey(
           'raw',
-          base64UrlToBytes(keyString),
+          keyBytes,
           { name: 'AES-GCM' },
           false,
           ['decrypt']
