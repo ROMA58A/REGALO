@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="Alguien preparó una carta especial para ti.">
+  <title>Una carta para ti — Cartitas</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body class="letter-page">
+  <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Cartitas, ir al inicio">
+      <span class="brand-mark"><i class="bi bi-envelope-heart-fill" aria-hidden="true"></i></span>
+      <span>cartitas<span class="brand-period">.</span></span>
+    </a>
+    <a class="header-link" href="index.html">Crear una carta <i class="bi bi-arrow-up-right" aria-hidden="true"></i></a>
+  </header>
+
+  <main>
+    <section class="letter-hero">
+      <span class="eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> Un mensaje hecho para ti</span>
+      <h1>Alguien te escribió algo <em>bonito.</em></h1>
+      <p>Tómate un momento, abre tu carta y disfruta la sorpresa.</p>
+      <span class="hero-sparkle sparkle-a">✳</span><span class="hero-sparkle sparkle-b">♥</span>
+    </section>
+
+    <section class="letter-content-section">
+      <div class="letter-wrap">
+        <div id="letter-card" class="letter-card theme-rosa">
+          <button id="open-letter" class="letter-cover" type="button" aria-expanded="false" aria-controls="letter-inside">
+            <span class="cover-topline">UNA CARTA PARA TI</span>
+            <span class="cover-envelope"><i class="bi bi-envelope-heart-fill" aria-hidden="true"></i></span>
+            <span class="cover-prompt">Toca para abrir <i class="bi bi-arrow-down" aria-hidden="true"></i></span>
+          </button>
+          <article id="letter-inside" class="letter-inside" hidden>
+            <div id="capture-content" class="letter-paper">
+              <div class="paper-top"><i class="bi bi-flower1" aria-hidden="true"></i><span>con mucho cariño</span><i class="bi bi-flower1" aria-hidden="true"></i></div>
+              <p id="letter-occasion" class="letter-occasion" hidden></p>
+              <p class="letter-to">Para <strong id="recipientName">alguien especial</strong>,</p>
+              <p id="message" class="letter-message"></p>
+              <div id="letter-roses" class="rose-bouquet letter-rose-bouquet" role="img" aria-label="Un ramo de rosas hecho con mucho cariño" hidden>
+                <span class="rose-stem stem-one"></span><span class="rose-stem stem-two"></span><span class="rose-stem stem-three"></span><span class="rose-stem stem-four"></span><span class="rose-stem stem-five"></span>
+                <span class="rose-leaf leaf-one"></span><span class="rose-leaf leaf-two"></span><span class="rose-leaf leaf-three"></span><span class="rose-leaf leaf-four"></span>
+                <span class="rose-head bloom-one"></span><span class="rose-head bloom-two"></span><span class="rose-head bloom-three"></span><span class="rose-head bloom-four"></span><span class="rose-head bloom-five"></span>
+                <span class="rose-paper"></span><span class="rose-ribbon"></span>
+                <span class="rose-caption">Unas rosas para ti</span>
+              </div>
+              <div id="music-section" class="music-section" hidden>
+                <p class="music-caption"><i class="bi bi-music-note-beamed" aria-hidden="true"></i> Una canción para acompañar estas palabras</p>
+                <div id="audio-container"></div>
+                <div id="spotify-container"></div>
+              </div>
+              <div class="letter-signoff"><span id="closing">Con cariño,</span><strong id="senderName">alguien que te quiere</strong><i class="bi bi-heart-fill" aria-hidden="true"></i></div>
+            </div>
+          </article>
+        </div>
+        <p id="letter-hint" class="letter-hint"><i class="bi bi-hand-index-thumb" aria-hidden="true"></i> La carta está esperando a que la abras</p>
+      </div>
+
+      <section id="coupon-section" class="coupon-section" hidden>
+        <div class="section-heading">
+          <span class="eyebrow">Un extra para sonreír</span>
+          <h2>También hay cupones de <em>cariño</em></h2>
+          <p>Promesas bonitas, para canjear cuando quieras.</p>
+        </div>
+        <div id="coupon-container" class="coupon-grid"></div>
+      </section>
+
+      <div class="letter-actions">
+        <button id="send-heart" class="secondary-button heart-button" type="button"><i class="bi bi-heart-fill" aria-hidden="true"></i> Devolver cariño</button>
+        <button id="copy-message" class="secondary-button" type="button"><i class="bi bi-copy" aria-hidden="true"></i> Copiar mensaje</button>
+        <button id="share-letter" class="secondary-button" type="button"><i class="bi bi-send" aria-hidden="true"></i> Compartir</button>
+        <button id="print-letter" class="secondary-button" type="button"><i class="bi bi-printer" aria-hidden="true"></i> Imprimir</button>
+        <button id="download-letter" class="secondary-button" type="button"><i class="bi bi-download" aria-hidden="true"></i> Guardar mi carta</button>
+        <button id="download-coupons" class="secondary-button" type="button" hidden><i class="bi bi-ticket-perforated" aria-hidden="true"></i> Guardar todos los cupones</button>
+      </div>
+      <p id="download-status" class="download-status" role="status" aria-live="polite"></p>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="index.html"><span class="brand-mark"><i class="bi bi-envelope-heart-fill" aria-hidden="true"></i></span><span>cartitas<span class="brand-period">.</span></span></a>
+    <p>Las palabras bonitas siempre encuentran su camino.</p>
+    <span class="footer-social-label">Mis redes</span>
+    <div class="footer-socials" aria-label="Redes sociales de Brandon">
+      <a href="https://github.com/ROMA58A" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Brandon"><i class="bi bi-github" aria-hidden="true"></i></a>
+      <a href="https://www.facebook.com/brandon.ayala.71216/?locale=es_LA" target="_blank" rel="noopener noreferrer" aria-label="Facebook de Brandon"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+      <a href="https://www.linkedin.com/in/brand-ayala/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Brandon"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+    </div>
+    <a class="footer-create-link" href="index.html">Haz tu propia carta <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+  </footer>
+  <script src="app.js" defer></script>
+  <script src="respuesta.js" defer></script>
+</body>
+</html>

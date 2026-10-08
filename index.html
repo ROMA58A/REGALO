@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fff8f4">
+  <meta name="description" content="Crea una carta digital única, añade una canción y regálale un momento especial a alguien.">
+  <title>Cartitas — Un detalle que se siente</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+  <link rel="stylesheet" href="app.css">
+</head>
+<body class="creator-page">
+  <div class="scroll-progress" aria-hidden="true"><span id="scroll-progress-bar"></span></div>
+  <header class="site-header">
+    <a class="brand" href="index.html" aria-label="Cartitas, ir al inicio">
+      <span class="brand-mark"><i class="bi bi-envelope-heart-fill" aria-hidden="true"></i></span>
+      <span>cartitas<span class="brand-period">.</span></span>
+    </a>
+    <a class="header-link" href="#crear">Crear mi carta <i class="bi bi-arrow-down-right" aria-hidden="true"></i></a>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow"><i class="bi bi-stars" aria-hidden="true"></i> Un detalle hecho con cariño</span>
+        <h1>Hay cosas que merecen decirse <em>bonito.</em></h1>
+        <p>Escribe una carta, dedícale una canción y sorprende a esa persona especial con un enlace que puede guardar para siempre.</p>
+        <a class="primary-button hero-button" href="#crear">Empezar mi carta <i class="bi bi-arrow-right" aria-hidden="true"></i></a>
+        <div class="hero-note"><i class="bi bi-heart-fill" aria-hidden="true"></i> Gratis, personal y lista para compartir</div>
+      </div>
+      <div class="hero-art" aria-hidden="true">
+        <div class="floating-heart heart-one">♥</div>
+        <div class="floating-heart heart-two">✦</div>
+        <div class="floating-heart heart-three">✿</div>
+        <div class="hero-envelope">
+          <div class="envelope-flap"></div>
+          <div class="envelope-paper"><span>Para alguien<br>muy especial</span><i class="bi bi-heart-fill"></i></div>
+          <div class="envelope-front"></div>
+          <div class="envelope-seal"><i class="bi bi-heart-fill"></i></div>
+        </div>
+        <div class="art-caption">hecho para emocionar <span>✿</span></div>
+      </div>
+    </section>
+
+    <section class="steps-strip" aria-label="Cómo funciona">
+      <div><span>01</span><p>Escribe lo que sientes</p></div>
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      <div><span>02</span><p>Hazla muy tuya</p></div>
+      <i class="bi bi-arrow-right" aria-hidden="true"></i>
+      <div><span>03</span><p>Comparte la sorpresa</p></div>
+    </section>
+
+    <section id="crear" class="creator-section">
+      <div class="section-heading">
+        <span class="eyebrow">Tu detalle empieza aquí</span>
+        <h2>Vamos a crear algo <em>inolvidable</em></h2>
+        <p>Completa lo esencial y añade los extras que quieras. No necesitas registrarte.</p>
+      </div>
+      <div class="creator-layout">
+        <form id="unified-form" class="form-card">
+          <div class="form-section">
+            <div class="form-section-title"><span class="step-number">1</span><div><h3>Las personas</h3><p>¿Quién escribe y quién recibe?</p></div></div>
+            <div class="field-grid">
+              <label class="field"><span>Tu nombre</span><input type="text" id="sender-name" name="sender-name" maxlength="50" placeholder="Ej. Alex" autocomplete="name" required></label>
+              <label class="field"><span>Nombre de esa persona</span><input type="text" id="recipient-name" name="recipient-name" maxlength="50" placeholder="Ej. Sam" required></label>
+            </div>
+          </div>
+
+          <div class="form-section">
+            <div class="form-section-title"><span class="step-number">2</span><div><h3>Lo que quieres decir</h3><p>Las palabras más bonitas son las tuyas.</p></div></div>
+            <label class="field"><span>Tu mensaje</span><textarea id="message" name="message" rows="6" maxlength="700" placeholder="A veces no encuentro las palabras, pero hoy quería recordarte que..." required></textarea></label>
+            <div class="field-meta"><span>Un mensaje sincero lo cambia todo <i class="bi bi-heart" aria-hidden="true"></i></span><span id="character-count">0 / 700</span></div>
+            <button id="inspire-message" class="inspiration-button" type="button"><i class="bi bi-magic" aria-hidden="true"></i> Dame una idea bonita <i class="bi bi-arrow-repeat inspiration-arrow" aria-hidden="true"></i></button>
+            <label class="field theme-field"><span>Elige el estilo de tu carta</span>
+              <select id="theme" name="theme">
+                <option value="rosa">Rosa romántico</option>
+                <option value="lavanda">Lavanda soñadora</option>
+                <option value="sol">Amarillo soleado</option>
+                <option value="menta">Verde tranquilo</option>
+              </select>
+            </label>
+            <div class="field-grid personalization-grid">
+              <label class="field"><span>¿Qué celebras?</span>
+                <select id="occasion" name="occasion">
+                  <option value="">Sin ocasión especial</option>
+                  <option value="Cumpleaños feliz">Cumpleaños</option>
+                  <option value="Feliz aniversario">Aniversario</option>
+                  <option value="Gracias por tanto">Dar las gracias</option>
+                  <option value="Estoy aquí para ti">Enviar ánimo</option>
+                  <option value="Solo porque sí">Solo porque sí</option>
+                  <option value="Un día para recordar">Un día especial</option>
+                </select>
+              </label>
+              <label class="field"><span>Elige la despedida</span>
+                <select id="closing" name="closing">
+                  <option value="Con cariño,">Con cariño</option>
+                  <option value="Con mucho amor,">Con mucho amor</option>
+                  <option value="Siempre contigo,">Siempre contigo</option>
+                  <option value="Un abrazo enorme,">Un abrazo enorme</option>
+                  <option value="Con todo mi corazón,">Con todo mi corazón</option>
+                </select>
+              </label>
+            </div>
+          </div>
+
+          <div class="form-section extras-section">
+            <div class="form-section-title"><span class="step-number">3</span><div><h3>Un poquito más de magia</h3><p>Estos detalles son opcionales.</p></div></div>
+            <label class="option-card" for="include-spotify">
+              <span class="option-icon spotify-icon"><i class="bi bi-spotify" aria-hidden="true"></i></span>
+              <span class="option-copy"><strong>Dedicar una canción de Spotify</strong><small>Para que también suene lo que sientes.</small></span>
+              <input type="checkbox" id="include-spotify" name="include-spotify">
+            </label>
+            <div id="spotify-container" class="option-fields" hidden>
+              <label class="field"><span>Enlace de la canción</span><input type="url" id="spotify-track" name="spotify-track" placeholder="https://open.spotify.com/track/..."></label>
+              <a class="external-link" href="https://open.spotify.com" target="_blank" rel="noopener noreferrer">Busca una canción en Spotify <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+
+            <label class="option-card" for="include-soundcloud">
+              <span class="option-icon soundcloud-icon"><i class="bi bi-soundwave" aria-hidden="true"></i></span>
+              <span class="option-copy"><strong>Compartir una canción de SoundCloud</strong><small>Una canción especial para acompañar la carta.</small></span>
+              <input type="checkbox" id="include-soundcloud" name="include-soundcloud">
+            </label>
+            <div id="soundcloud-container" class="option-fields" hidden>
+              <label class="field"><span>Enlace de la canción</span><input type="url" id="soundcloud-track" name="soundcloud-track" placeholder="https://soundcloud.com/artista/cancion"></label>
+              <a class="external-link" href="https://soundcloud.com" target="_blank" rel="noopener noreferrer">Encuentra tu canción en SoundCloud <i class="bi bi-box-arrow-up-right" aria-hidden="true"></i></a>
+            </div>
+
+            <label class="option-card" for="include-cupon">
+              <span class="option-icon coupon-icon"><i class="bi bi-ticket-perforated-fill" aria-hidden="true"></i></span>
+              <span class="option-copy"><strong>Regalar cupones de cariño</strong><small>Promesas bonitas que se pueden canjear.</small></span>
+              <input type="checkbox" id="include-cupon" name="include-cupon">
+            </label>
+            <div id="cupon-container" class="option-fields" hidden>
+              <label class="field"><span>¿Cuántos cupones?</span>
+                <select id="num-cupones" name="num-cupones">
+                  <option value="1">1 cupón</option><option value="2">2 cupones</option><option value="3">3 cupones</option><option value="4">4 cupones</option><option value="5" selected>5 cupones</option>
+                </select>
+              </label>
+              <div id="coupon-fields-container" class="coupon-fields"></div>
+            </div>
+
+            <label class="option-card rose-option-card" for="include-roses">
+              <span class="option-icon rose-option-icon"><i class="bi bi-flower2" aria-hidden="true"></i></span>
+              <span class="option-copy"><strong>Incluir un ramo de rosas</strong><small>Un ramo dibujado con CSS, sin imágenes externas.</small></span>
+              <input type="checkbox" id="include-roses" name="include-roses">
+            </label>
+            <div id="rose-option-note" class="option-fields rose-option-note" hidden>El ramo aparecerá dentro de la carta. ¡Un detalle floral para acompañar tus palabras!</div>
+          </div>
+          <button type="submit" class="primary-button submit-button"><i class="bi bi-envelope-paper-heart" aria-hidden="true"></i> Crear mi carta <i class="bi bi-arrow-right" aria-hidden="true"></i></button>
+          <p class="privacy-note"><i class="bi bi-shield-lock" aria-hidden="true"></i> La carta se cifra en el navegador y se comparte con un enlace corto. Cualquiera con el enlace completo podrá leerla.</p>
+          <div class="draft-tools">
+            <button id="save-draft" class="draft-button" type="button"><i class="bi bi-bookmark-heart" aria-hidden="true"></i> Guardar borrador</button>
+            <button id="restore-draft" class="draft-button" type="button" hidden><i class="bi bi-arrow-counterclockwise" aria-hidden="true"></i> Recuperar borrador</button>
+            <button id="delete-draft" class="draft-button draft-delete" type="button" hidden><i class="bi bi-trash3" aria-hidden="true"></i> Borrar guardado</button>
+          </div>
+          <p class="draft-note">El borrador queda solo en este navegador y dispositivo.</p>
+          <div id="draft-status" class="draft-status" role="status" aria-live="polite"></div>
+          <div id="form-status" class="form-status" role="status" aria-live="polite"></div>
+        </form>
+
+        <aside class="preview-column">
+          <div class="preview-label"><span class="live-dot"></span> Vista previa</div>
+          <div id="preview-card" class="preview-card theme-rosa">
+            <div class="preview-top"><i class="bi bi-envelope-heart-fill" aria-hidden="true"></i><span>una carta para ti</span></div>
+            <div class="preview-stamp"><i class="bi bi-heart-fill" aria-hidden="true"></i></div>
+            <p class="preview-to">Para <strong id="preview-recipient">esa persona especial</strong></p>
+            <p id="preview-message" class="preview-message">Aquí aparecerá tu mensaje bonito...</p>
+            <p id="preview-occasion" class="preview-occasion" hidden></p>
+            <div id="preview-roses" class="rose-bouquet rose-bouquet-preview" role="img" aria-label="Vista previa de un ramo de rosas" hidden>
+              <span class="rose-stem stem-one"></span><span class="rose-stem stem-two"></span><span class="rose-stem stem-three"></span><span class="rose-stem stem-four"></span><span class="rose-stem stem-five"></span>
+              <span class="rose-leaf leaf-one"></span><span class="rose-leaf leaf-two"></span><span class="rose-leaf leaf-three"></span><span class="rose-leaf leaf-four"></span>
+              <span class="rose-head bloom-one"></span><span class="rose-head bloom-two"></span><span class="rose-head bloom-three"></span><span class="rose-head bloom-four"></span><span class="rose-head bloom-five"></span>
+              <span class="rose-paper"></span><span class="rose-ribbon"></span>
+            </div>
+            <div class="preview-signature"><span id="preview-closing">Con cariño,</span><br><strong id="preview-sender">tu nombre</strong></div>
+            <div class="preview-decoration">✿ &nbsp; ✧ &nbsp; ♥</div>
+          </div>
+          <div class="preview-tip"><i class="bi bi-lightbulb" aria-hidden="true"></i><p>Consejito: escribe como si estuvieras hablando con esa persona. Lo auténtico siempre llega más lejos.</p></div>
+          <div class="preview-tip preview-tip-shortcut"><i class="bi bi-stars" aria-hidden="true"></i><p>Tu carta puede tener su ocasión y despedida propias. ¡Hazla a tu manera!</p></div>
+          <div id="link-container" class="result-card" hidden></div>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <a class="brand footer-brand" href="index.html"><span class="brand-mark"><i class="bi bi-envelope-heart-fill" aria-hidden="true"></i></span><span>cartitas<span class="brand-period">.</span></span></a>
+    <p>Hecho con cariño para ayudar a decir lo que importa.</p>
+    <span class="footer-social-label">Mis redes</span>
+    <div class="footer-socials" aria-label="Redes sociales de Brandon">
+      <a href="https://github.com/ROMA58A" target="_blank" rel="noopener noreferrer" aria-label="GitHub de Brandon"><i class="bi bi-github" aria-hidden="true"></i></a>
+      <a href="https://www.facebook.com/brandon.ayala.71216/?locale=es_LA" target="_blank" rel="noopener noreferrer" aria-label="Facebook de Brandon"><i class="bi bi-facebook" aria-hidden="true"></i></a>
+      <a href="https://www.linkedin.com/in/brand-ayala/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn de Brandon"><i class="bi bi-linkedin" aria-hidden="true"></i></a>
+    </div>
+    <span>© <span id="current-year"></span> Cartitas</span>
+  </footer>
+  <script src="app.js"></script>
+  <script src="regalo.js"></script>
+</body>
+</html>
