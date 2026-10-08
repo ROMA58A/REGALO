@@ -11,11 +11,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   let invalidCompressedLink = false;
   if (shortId) {
     try {
-      const response = await fetch(`https://is.gd/forward.php?format=json&shorturl=${shortId}`);
-      const result = await response.json();
-      const stored = new URL(result.url);
-      if (!stored.searchParams.has('c')) throw new Error('La carta no existe.');
-      params = new URLSearchParams({ c: stored.searchParams.get('c') });
+      const storeUrl = (window.CARTITAS_STORE_URL || '').replace(/\/$/, '');
+      let encrypted;
+      if (storeUrl) {
+        const response = await fetch(`${storeUrl}/${shortId}`);
+        if (!response.ok) throw new Error('La carta no existe.');
+        encrypted = (await response.text()).trim();
+      } else {
+        const response = await fetch(`https://is.gd/forward.php?format=json&shorturl=${shortId}`);
+        const result = await response.json();
+        const stored = new URL(result.url);
+        if (!stored.searchParams.has('c')) throw new Error('La carta no existe.');
+        encrypted = stored.searchParams.get('c');
+      }
+      params = new URLSearchParams({ c: encrypted });
     } catch {
       params = new URLSearchParams({ c: '' });
     }

@@ -2,6 +2,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // URL pública donde está publicada esta carpeta, por ejemplo 'https://usuario.github.io/regalo/'.
   // Déjala vacía para usar la dirección actual; con ella se pueden acortar enlaces creados desde localhost.
   const publicSiteUrl = 'https://roma58a.github.io/REGALO/';
+  const storeUrl = (window.CARTITAS_STORE_URL || '').replace(/\/$/, '');
   const form = document.getElementById('unified-form');
   if (!form) return;
 
@@ -320,6 +321,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const destination = new URL(letterUrl);
     const decryptionKey = destination.hash;
     destination.hash = '';
+
+    if (storeUrl) {
+      const response = await fetch(storeUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain' },
+        body: destination.searchParams.get('c')
+      });
+      const result = await response.json();
+      if (!response.ok || !/^[A-Za-z0-9]{10}$/.test(result.id)) throw new Error('El servidor de enlaces no respondió bien.');
+      const compact = new URL('respuesta.html', destination);
+      compact.search = result.id;
+      compact.hash = decryptionKey.slice(3);
+      return compact.href;
+    }
 
     const requestUrl = new URL('https://is.gd/create.php');
     requestUrl.searchParams.set('format', 'json');
