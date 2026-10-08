@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const description = document.createElement('p');
     description.textContent = shorteningError
       ? `${shorteningError} Te dejo el enlace cifrado completo para que puedas copiarlo.`
-      : 'Enlace corto listo. is.gd guarda solo el contenido cifrado; la clave permanece después de # y no se envía al acortador.';
+      : 'Enlace corto listo. El servidor guarda solo el contenido cifrado; la clave permanece después de # y nunca se envía.';
     const link = document.createElement('a');
     link.className = 'generated-link';
     link.href = url;
@@ -400,7 +400,7 @@ document.addEventListener('DOMContentLoaded', () => {
     link.rel = 'noopener noreferrer';
     link.title = shorteningError
       ? 'Enlace cifrado completo. Copia esta dirección para compartir la carta.'
-      : 'Enlace corto de is.gd. La clave está en el fragmento final.';
+      : 'Enlace corto. La clave está en el fragmento final.';
 
     const actions = document.createElement('div');
     actions.className = 'result-actions';
@@ -473,7 +473,7 @@ document.addEventListener('DOMContentLoaded', () => {
           showResult(shortUrl);
           setStatus('Tu carta cifrada ya está lista en un enlace corto.', 'success');
         } catch (error) {
-          showResult(fullUrl, `No se pudo acortar el enlace con is.gd: ${error.message}`);
+          showResult(fullUrl, `No se pudo acortar el enlace: ${error.message}`);
           setStatus('El acortador no respondió correctamente. Dejé disponible el enlace cifrado completo.', 'error');
         }
       }
