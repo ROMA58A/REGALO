@@ -302,8 +302,8 @@ document.addEventListener('DOMContentLoaded', () => {
       byId('include-roses').checked
     ];
     const compressedPayload = await compressPayload(payload);
-    // Secreto corto de 12 caracteres (72 bits) del que se deriva la clave AES-128.
-    const secret = bytesToBase64Url(window.crypto.getRandomValues(new Uint8Array(9)));
+    // Secreto corto de 15 caracteres (88 bits) del que se deriva la clave AES-128.
+    const secret = bytesToBase64Url(window.crypto.getRandomValues(new Uint8Array(11)));
     const keyBytes = new Uint8Array(await window.crypto.subtle.digest('SHA-256', new TextEncoder().encode(secret))).subarray(0, 16);
     const key = await window.crypto.subtle.importKey('raw', keyBytes, { name: 'AES-GCM' }, false, ['encrypt']);
     const iv = window.crypto.getRandomValues(new Uint8Array(12));
