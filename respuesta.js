@@ -5,9 +5,21 @@ const base64UrlToBytes = (encoded) => {
 };
 
 document.addEventListener('DOMContentLoaded', async () => {
-  const params = new URLSearchParams(window.location.search);
+  let params = new URLSearchParams(window.location.search);
+  const shortId = /^\?([A-Za-z0-9_]{5,32})$/.exec(window.location.search)?.[1];
   let letterData = null;
   let invalidCompressedLink = false;
+  if (shortId) {
+    try {
+      const response = await fetch(`https://is.gd/forward.php?format=json&shorturl=${shortId}`);
+      const result = await response.json();
+      const stored = new URL(result.url);
+      if (!stored.searchParams.has('c')) throw new Error('La carta no existe.');
+      params = new URLSearchParams({ c: stored.searchParams.get('c') });
+    } catch {
+      params = new URLSearchParams({ c: '' });
+    }
+  }
   if (params.has('c') || params.has('d')) {
     try {
       if (typeof DecompressionStream !== 'function') {

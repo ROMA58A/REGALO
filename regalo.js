@@ -324,6 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
     const requestUrl = new URL('https://is.gd/create.php');
     requestUrl.searchParams.set('format', 'json');
     requestUrl.searchParams.set('url', destination.href);
+    const alphabet = 'abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+    const alias = Array.from(window.crypto.getRandomValues(new Uint8Array(10)), (n) => alphabet[n % alphabet.length]).join('');
+    requestUrl.searchParams.set('shorturl', alias);
     const controller = new AbortController();
     const timeout = window.setTimeout(() => controller.abort(), 15000);
 
@@ -338,8 +341,10 @@ document.addEventListener('DOMContentLoaded', () => {
       if (shortened.protocol !== 'https:' || shortened.hostname !== 'is.gd') {
         throw new Error('El servicio devolvió una dirección de destino no válida.');
       }
-      shortened.hash = decryptionKey.slice(3);
-      return shortened.href;
+      const compact = new URL('respuesta.html', destination);
+      compact.search = shortened.pathname.slice(1);
+      compact.hash = decryptionKey.slice(3);
+      return compact.href;
     } finally {
       window.clearTimeout(timeout);
     }
