@@ -208,11 +208,40 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (textParam('soundcloudTrack')) hasValidMusic = addMusicPlayer('soundcloud', textParam('soundcloudTrack')) || hasValidMusic;
   musicSection.hidden = !hasValidMusic;
 
+  let messageTyped = false;
+  const typeMessage = () => {
+    if (messageTyped) return;
+    messageTyped = true;
+    const messageElement = document.getElementById('message');
+    const parts = messageElement.textContent.split(/(\s+)/);
+    const wordCount = parts.filter((part) => part && !/^\s+$/.test(part)).length;
+    const step = Math.min(0.22, 7 / Math.max(wordCount, 1));
+    messageElement.textContent = '';
+    let index = 0;
+    parts.forEach((part) => {
+      if (!part) return;
+      if (/^\s+$/.test(part)) {
+        messageElement.append(document.createTextNode(part));
+        return;
+      }
+      const word = document.createElement('span');
+      word.className = 'type-word';
+      word.style.setProperty('--i', index);
+      word.textContent = part;
+      messageElement.append(word);
+      index += 1;
+    });
+    messageElement.style.setProperty('--step', `${step}s`);
+    messageElement.style.setProperty('--total', `${(index * step + 0.6).toFixed(2)}s`);
+    messageElement.classList.add('is-typing');
+  };
+
   const openLetter = () => {
     const opening = openButton.getAttribute('aria-expanded') !== 'true';
     openButton.setAttribute('aria-expanded', String(opening));
     letterInside.hidden = !opening;
     letterCard.classList.toggle('is-open', opening);
+    if (opening) typeMessage();
     hint.innerHTML = opening
       ? '<i class="bi bi-heart-fill" aria-hidden="true"></i> Una carta escrita solo para ti'
       : '<i class="bi bi-hand-index-thumb" aria-hidden="true"></i> La carta está esperando a que la abras';
@@ -621,6 +650,40 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.setTimeout(() => URL.revokeObjectURL(url), 2000);
       resolve();
     }, 'image/png');
+  });
+
+  const letterCanvasBlob = async () => {
+    await loadImageFonts();
+    const scratch = makeCanvas(imageWidth, 10);
+    const totalHeight = Math.max(760, Math.ceil(paintLetter(scratch.ctx, 0)) + 90);
+    const { canvas, ctx } = makeCanvas(imageWidth, totalHeight);
+    paintLetter(ctx, totalHeight);
+    return new Promise((resolve, reject) => {
+      canvas.toBlob((blob) => (blob ? resolve(blob) : reject(new Error('No se pudo crear la imagen.'))), 'image/png');
+    });
+  };
+
+  document.getElementById('share-image').addEventListener('click', async () => {
+    try {
+      const blob = await letterCanvasBlob();
+      const file = new File([blob], 'mi-carta.png', { type: 'image/png' });
+      if (navigator.canShare && navigator.canShare({ files: [file] })) {
+        await navigator.share({ files: [file], title: 'Una carta especial para ti', text: 'Te escribí una carta' });
+        setDownloadStatus('¡Vista previa de la carta compartida!');
+      } else {
+        const url = URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.download = 'mi-carta.png';
+        link.href = url;
+        document.body.append(link);
+        link.click();
+        link.remove();
+        window.setTimeout(() => URL.revokeObjectURL(url), 2000);
+        setDownloadStatus('Tu navegador no comparte imágenes directamente; la descargué para que la envíes.');
+      }
+    } catch (error) {
+      if (error.name !== 'AbortError') setDownloadStatus(error.message || 'No se pudo compartir la imagen.', true);
+    }
   });
 
   const downloadLetterImage = async () => {
