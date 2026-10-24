@@ -95,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     occasionPreview.textContent = occasionSelect.value;
     occasionPreview.hidden = !occasionSelect.value;
     byId('preview-roses').hidden = !byId('include-roses').checked;
-    byId('character-count').textContent = `${messageInput.value.length} / 700`;
+    byId('character-count').textContent = `${messageInput.value.length.toLocaleString('es')} caracteres`;
     previewCard.className = `preview-card theme-${themeSelect.value}`;
     previewUpdateTimer = window.setTimeout(() => {
       previewCard.classList.remove('is-updating');
@@ -230,7 +230,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const updatedMessage = messageInput.value.trim()
       ? `${messageInput.value.trim()}\n\n${idea}`
       : idea;
-    messageInput.value = updatedMessage.slice(0, messageInput.maxLength);
+    messageInput.value = updatedMessage;
     messageInput.dispatchEvent(new Event('input', { bubbles: true }));
     messageInput.focus();
     messageInput.setSelectionRange(messageInput.value.length, messageInput.value.length);
